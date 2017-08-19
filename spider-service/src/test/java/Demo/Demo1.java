@@ -13,9 +13,11 @@ import org.junit.Test;
 
 import com.alibaba.fastjson.JSON;
 
-import cn.itcast.spider.dto.Data;
 import cn.itcast.spider.dto.HistoryBoxOffice;
+import cn.itcast.spider.dto.EveryDayBoxOffice;
 import cn.itcast.spider.dto.MovieDetails;
+import cn.itcast.spider.dto.RealtimeBoxOffice;
+import cn.itcast.spider.dto.RealtimeRank;
 import cn.itcast.spider.service.CboooSpiderService;
 
 public class Demo1 {
@@ -35,9 +37,21 @@ public class Demo1 {
 	 */
 	@Test 
 	public void test2(){
-		List<HistoryBoxOffice> historyBoxOffice = spiderService.historyBoxOffice("641515");
-		for (HistoryBoxOffice historyBoxOffice2 : historyBoxOffice) {
-			System.out.println(historyBoxOffice2);
+		HistoryBoxOffice historyBoxOffice = spiderService.historyBoxOffice("641515");
+		System.out.println(historyBoxOffice.gethistoryBoxOffice());
+		
+	}
+	/*
+	 * 测试RealtimeRank接口
+	 */
+	@Test
+	public void test3(){
+		RealtimeRank realtimeRank = spiderService.realtimeRank();
+		System.out.println(realtimeRank.getRealtimeAmountBoxOffice());
+		List<RealtimeBoxOffice> list = realtimeRank.getAllRealtimeBoxOffice();
+		for (RealtimeBoxOffice realtimeBoxOffice : list) {
+			System.out.println(realtimeBoxOffice);
+			System.out.println("============");
 		}
 	}
 

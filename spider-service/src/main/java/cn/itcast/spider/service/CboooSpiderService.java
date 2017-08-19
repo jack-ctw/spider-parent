@@ -2,6 +2,7 @@ package cn.itcast.spider.service;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -20,20 +21,62 @@ import org.jsoup.select.Elements;
 
 import com.alibaba.fastjson.JSON;
 
-import cn.itcast.spider.dto.Data;
 import cn.itcast.spider.dto.HistoryBoxOffice;
+import cn.itcast.spider.dto.RealtimeRank;
+import cn.itcast.spider.dto.EveryDayBoxOffice;
 import cn.itcast.spider.dto.MovieDetails;
+import cn.itcast.spider.dto.RealtimeBoxOffice;
 
 public class CboooSpiderService {
 	/**
 	 * 获取实时票房排行榜
 	 * 
-	 * @param movieId
-	 * @return MovieDetails
+	 * @return RealtimeRank
 	 */
-	public Object realtimeRank() {
+	public RealtimeRank realtimeRank() {
 
-		return null;
+		RealtimeRank realtimRank = new RealtimeRank();
+		List<RealtimeBoxOffice> rbflist = new ArrayList<RealtimeBoxOffice>();
+		try {
+			Document doc = Jsoup.connect("http://m.cbooo.cn/").data("query", "Java").userAgent("Mozilla")
+					.cookie("auth", "token").timeout(3000).get();
+			// 总票房数
+			String allrealtimeBoxOffice = doc.select("h3").select("span").get(0).text();
+			realtimRank.setRealtimeAmountBoxOffice(allrealtimeBoxOffice);
+
+			// 封装实时排行榜数据
+			Elements elements = doc.getElementsByClass("js_bg").select("tbody").select("tr");
+			for (int i = 0; i < elements.size(); i++) {
+				
+				RealtimeBoxOffice rbo = new RealtimeBoxOffice();
+				String[] split = elements.get(i).text().split(" ");
+				String name = split[0];
+				String amountBoxOffice = split[1];
+				String releasedDays = split[2];
+				String realtimeBoxOffice = split[3];
+				String boxOfficeRatio = split[4];
+				String screeningRatio = split[5];
+				String tomorrowScreenings = split[6];
+				rbo.setName(name);
+				rbo.setAmountBoxOffice(amountBoxOffice);
+				rbo.setReleasedDays(releasedDays);
+				rbo.setRealtimeBoxOffice(realtimeBoxOffice);
+				rbo.setBoxOfficeRatio(boxOfficeRatio);
+				rbo.setScreeningRatio(screeningRatio);
+				rbo.setTomorrowScreenings(tomorrowScreenings);
+				
+				// 将排行榜的每部电影push到list中
+				rbflist.add(rbo);
+				realtimRank.setAllRealtimeBoxOffice(rbflist);
+				
+			}
+
+		} catch (IOException e) {
+
+			e.printStackTrace();
+		}
+
+		return realtimRank;
 	}
 
 	/**
@@ -43,9 +86,9 @@ public class CboooSpiderService {
 	 * @return MovieDetails
 	 */
 	public MovieDetails movieDetails(String movieId) {
-		
+
 		MovieDetails movieDetails = new MovieDetails();
-		
+
 		try {
 			Document doc = Jsoup.connect("http://m.cbooo.cn/Movie/MovieDetails?Mid=" + movieId).data("query", "Java")
 					.userAgent("Mozilla").cookie("auth", "token").timeout(3000).post();
@@ -92,27 +135,28 @@ public class CboooSpiderService {
 
 		return movieDetails;
 	}
+
 	/**
 	 * 获取历史每日票房数据
 	 * 
 	 * @param movieId
-	 * @return List<HistoryBoxOffice>
+	 * @return HistoryBoxOffice
 	 */
-	public List<HistoryBoxOffice> historyBoxOffice(String movieId) {
+	public HistoryBoxOffice historyBoxOffice(String movieId) {
 		try {
 			// 获取数据
 			CloseableHttpClient httpClient = HttpClients.createDefault();
-			HttpGet httpGet = new HttpGet("http://m.cbooo.cn/Movie/GetTrend?mId="+movieId);
+			HttpGet httpGet = new HttpGet("http://m.cbooo.cn/Movie/GetTrend?mId=" + movieId);
 			CloseableHttpResponse response = httpClient.execute(httpGet);
 			HttpEntity entity = response.getEntity();
 			String datas = EntityUtils.toString(entity, "UTF-8");
-			Data data = JSON.parseObject(datas, Data.class);
-			return data.getData1();
-			
+			HistoryBoxOffice historyBoxOffice = JSON.parseObject(datas, HistoryBoxOffice.class);
+			return historyBoxOffice;
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new RuntimeException();
-		} 
+		}
 
 	}
 }
