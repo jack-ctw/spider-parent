@@ -4,33 +4,33 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class MovieDetails implements Serializable{
-	//TODO 注释
+	//片名
 	private String name;
-	
+	//类型
 	private String type;
-	
+	//片长
 	private String duration;
-	
+	//上映时间
 	private Date releaseTime;
-	
+	//上映天数
 	private String releasedDays;
-	
+	//制式
 	private String standard;
-	
+	//国家地区
 	private String country;
-	
+	//发行公司
 	private String company;
-	
+	//今天实时票房
 	private String realtimeBoxOffice;
-	
+	//累计票房
 	private String amountBoxOffice;
-	
+	//点映票房
 	private String experimentBoxOffice;
-	
+	//首映票房
 	private String firstDayBoxOffice;
-	
+	//首周票房
 	private String firstWeekBoxOffice;
-	
+	//首周末票房
 	private String firstWeekendBoxOffice;
 	
 	public String getName() {
