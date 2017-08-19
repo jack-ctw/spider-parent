@@ -7,4 +7,11 @@
   </parent>
   <artifactId>spider-web</artifactId>
   <packaging>war</packaging>
+  <dependencies>
+  	<dependency>
+  		<groupId>cn.itcast.spider</groupId>
+  		<artifactId>spider-service</artifactId>
+  		<version>0.0.1-SNAPSHOT</version>
+  	</dependency>
+  </dependencies>
 </project>

@@ -1,32 +1,56 @@
 package demo;
 
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.util.EntityUtils;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.junit.Test;
 
 public class Demo {
 	
+	@Test
+	public void test3(){
+		try {
+			Document doc = Jsoup.connect("http://m.cbooo.cn/").data("query", "Java")
+					.userAgent("Mozilla").cookie("auth", "token").timeout(3000).get();
+			String AllrealtimeBoxOffice = doc.select("h3").select("span").get(0).text();
+			System.out.println(AllrealtimeBoxOffice);
+			Elements elements = doc.getElementsByClass("js_bg").select("tbody").select("tr");
+			String[] split = elements.get(0).text().split(" ");
+			String name = split[0];
+			String amountBoxOffice = split[1];
+			String releasedDays = split[2];
+			String realtimeBoxOffice = split[3];
+			String boxOfficeRatio = split[4];
+			String screeningRatio = split[5];
+			String tomorrowScreenings = split[6];
+			for (String string : split) {
+				System.out.println(string);
+			}
+			System.out.println("=============");
+			System.out.println(name);
+			System.out.println(amountBoxOffice);
+			System.out.println(releasedDays);
+			System.out.println(realtimeBoxOffice);
+			System.out.println(boxOfficeRatio);
+			System.out.println(screeningRatio);
+			System.out.println(tomorrowScreenings);
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
 
 	/**
 	 * 电影基本信息
 	 * 
 	 * @throws ParseException
 	 */
-	@Test
+/*	@Test
 	public void test1() throws ParseException {
 		// 解析html文档 ,底层运用了httpclien
 		try {
@@ -74,7 +98,7 @@ public class Demo {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
+	}*/
 
 	/**
 	 * 电影每日数据
@@ -93,13 +117,21 @@ public class Demo {
 		 * response1.getEntity(); EntityUtils.consume(entity1);
 		 * response1.close();
 		 */
-
+		//方式一
+		/*Document doc = Jsoup.connect("http://m.cbooo.cn/Movie/GetTrend?mId=641515").data("query", "Java")
+				.userAgent("Mozilla").cookie("auth", "token").timeout(3000).get();
+		Element element = doc.getElementById("GetTrend");
+		System.out.println(doc);
+		System.out.println(element);
+		
 		CloseableHttpClient httpClient = HttpClients.createDefault();
 		HttpGet httpGet = new HttpGet("http://m.cbooo.cn/Movie/GetTrend?mId=641515");
 		CloseableHttpResponse response = httpClient.execute(httpGet);
 		HttpEntity entity = response.getEntity();
 		String data = EntityUtils.toString(entity, "UTF-8");
-		System.out.println(data);
+		
+		System.out.println(data);*/
+		
 	}
 	
 	
