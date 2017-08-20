@@ -26,7 +26,7 @@
         	<property name="prefix" value="/WEB-INF/test/"/>
         	
         	<!-- 配置视图的扩展名称 -->
-        	<property name="suffix" value=".html"/>
+        	<property name="suffix" value=".jsp"/>
         </bean>
 
 </beans>
