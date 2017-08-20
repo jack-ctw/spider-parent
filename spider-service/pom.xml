@@ -6,4 +6,11 @@
     <version>0.0.1-SNAPSHOT</version>
   </parent>
   <artifactId>spider-service</artifactId>
+  <dependencies>
+  	<dependency>
+  		<groupId>cn.itcast.spider</groupId>
+  		<artifactId>spider-dao</artifactId>
+  		<version>0.0.1-SNAPSHOT</version>
+  	</dependency>
+  </dependencies>
 </project>

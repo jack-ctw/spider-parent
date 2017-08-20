@@ -18,6 +18,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSON;
 
@@ -27,6 +28,7 @@ import cn.itcast.spider.dto.EveryDayBoxOffice;
 import cn.itcast.spider.dto.MovieDetails;
 import cn.itcast.spider.dto.RealtimeBoxOffice;
 
+@Service
 public class CboooSpiderService {
 	/**
 	 * 获取实时票房排行榜

@@ -1,10 +1,13 @@
 package cn.itcast.spider.dto;
+
+import java.io.Serializable;
+
 /**
  * 每个电脑实时数据
  * @author jack
  *
  */
-public class RealtimeBoxOffice {
+public class RealtimeBoxOffice implements Serializable{
 	//片名
 	private String name;
 	//总票房

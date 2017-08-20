@@ -1,12 +1,13 @@
 package cn.itcast.spider.dto;
 
+import java.io.Serializable;
 import java.util.List;
 /**
  * 实时票房排行榜
  * @author jack
  *
  */
-public class RealtimeRank {
+public class RealtimeRank implements Serializable{
 	//实时总票房数
 	private String realtimeAmountBoxOffice;
 	//实时票房排行榜
