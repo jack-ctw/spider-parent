@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import cn.itcast.spider.dto.HistoryBoxOffice;
 import cn.itcast.spider.dto.MovieDetails;
+import cn.itcast.spider.dto.RealtimeRank;
 import cn.itcast.spider.service.CboooSpiderService;
 
 @Controller
@@ -29,6 +30,29 @@ public class SpiderController {
 		return movieDetails;
 	}
 	
+	/**
+	 * 根据电影Id获取电影每日票房信息
+	 * url:http:127.0.0.1:8080//spider-web/historyBoxOffice/641515
+	 * @param mid
+	 * @return HistoryBoxOffice
+	 */
+	@RequestMapping("/historyBoxOffice/{mid}")
+	@ResponseBody
+	public HistoryBoxOffice historyBoxOffice(@PathVariable(value="mid") String mid){
+		HistoryBoxOffice historyBoxOffice = cboooSpiderService.historyBoxOffice(mid);
+		return historyBoxOffice;
+	}
 	
+	/**
+	 * 查询实时排行榜票房信息
+	 * url:http:127.0.0.1:8080//spider-web/realtimeRank
+	 * @return RealtimeRank
+	 */
+	@RequestMapping("/realtimeRank")
+	@ResponseBody
+	public RealtimeRank realtimeRank(){
+		RealtimeRank realtimeRank = cboooSpiderService.realtimeRank();
+		return realtimeRank;
+	}
 	
 }

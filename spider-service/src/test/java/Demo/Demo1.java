@@ -29,7 +29,7 @@ public class Demo1 {
 	@Test 
 	public void test2(){
 		HistoryBoxOffice historyBoxOffice = spiderService.historyBoxOffice("641515");
-		System.out.println(historyBoxOffice.gethistoryBoxOffice());
+		System.out.println(historyBoxOffice.getData1());
 	}
 	/*
 	 * 测试RealtimeRank接口

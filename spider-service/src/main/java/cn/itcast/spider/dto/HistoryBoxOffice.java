@@ -9,13 +9,15 @@ import java.util.List;
  */
 public class HistoryBoxOffice implements Serializable{
 	//封装历史每日票房
-	private List<EveryDayBoxOffice> historyBoxOffice;
-	
-	public List<EveryDayBoxOffice> gethistoryBoxOffice() {
-		return historyBoxOffice;
+	private List<EveryDayBoxOffice> data1;
+
+	public List<EveryDayBoxOffice> getData1() {
+		return data1;
 	}
 
-	public void sethistoryBoxOffice(List<EveryDayBoxOffice> historyBoxOffice) {
-		this.historyBoxOffice = historyBoxOffice;
+	public void setData1(List<EveryDayBoxOffice> data1) {
+		this.data1 = data1;
 	}
+	
+
 }
