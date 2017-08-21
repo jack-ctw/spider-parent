@@ -1,4 +1,4 @@
-package cn.itcast.spider.dto;
+package cn.itcast.spider.pojo;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -9,6 +9,7 @@ import javax.persistence.*;
 @Entity
 @Table(name="movieDetails")
 public class MovieDetails implements Serializable{
+	
 	@Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private long id ;
@@ -164,17 +165,6 @@ public class MovieDetails implements Serializable{
 		this.firstWeekendBoxOffice = firstWeekendBoxOffice;
 		return this;
 	}
-	
-	@Override
-	public String toString() {
-		return "MovieDetails [id=" + id + ", name=" + name + ", type=" + type + ", duration=" + duration
-				+ ", releaseTime=" + releaseTime + ", releasedDays=" + releasedDays + ", standard=" + standard
-				+ ", country=" + country + ", company=" + company + ", realtimeBoxOffice=" + realtimeBoxOffice
-				+ ", amountBoxOffice=" + amountBoxOffice + ", experimentBoxOffice=" + experimentBoxOffice
-				+ ", firstDayBoxOffice=" + firstDayBoxOffice + ", firstWeekBoxOffice=" + firstWeekBoxOffice
-				+ ", firstWeekendBoxOffice=" + firstWeekendBoxOffice + "]";
-	}
-
 	
 
 

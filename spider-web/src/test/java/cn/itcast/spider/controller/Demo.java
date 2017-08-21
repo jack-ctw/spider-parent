@@ -1,4 +1,4 @@
-package demo;
+package cn.itcast.spider.controller;
 
 import java.io.IOException;
 import java.util.Vector;

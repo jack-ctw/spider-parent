@@ -1,4 +1,4 @@
-package Demo;
+package cn.itcast.spider.service;
 
 import java.util.List;
 
@@ -7,7 +7,11 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import cn.itcast.spider.dao.MovieDetailsDao;
 import cn.itcast.spider.dto.EveryDayBoxOffice;
 import cn.itcast.spider.dto.HistoryBoxOffice;
 import cn.itcast.spider.dto.MovieDetails;
@@ -15,8 +19,11 @@ import cn.itcast.spider.dto.RealtimeBoxOffice;
 import cn.itcast.spider.dto.RealtimeRank;
 import cn.itcast.spider.service.CboooSpiderService;
 
-public class Demo1 {
+
+public class CbooSpiderServiceTest {
+	
 	CboooSpiderService spiderService = new CboooSpiderService();
+	
 	
 	/*
 	 * 测试movieDetails接口
@@ -61,5 +68,6 @@ public class Demo1 {
 		em.getTransaction().commit();
 		emf.close();
 	}
+	
 
 }
