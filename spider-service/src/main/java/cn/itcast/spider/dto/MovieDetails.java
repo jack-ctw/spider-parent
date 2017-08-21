@@ -3,7 +3,17 @@ package cn.itcast.spider.dto;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.*;
+
+
+@Entity
+@Table(name="movieDetails")
 public class MovieDetails implements Serializable{
+	
+	@Id
+    @GeneratedValue(strategy=GenerationType.AUTO)
+    private long id ;
+
 	//片名
 	private String name;
 	//类型
@@ -32,6 +42,15 @@ public class MovieDetails implements Serializable{
 	private String firstWeekBoxOffice;
 	//首周末票房
 	private String firstWeekendBoxOffice;
+	
+	
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
 	
 	public String getName() {
 		return name;
@@ -141,17 +160,12 @@ public class MovieDetails implements Serializable{
 		return firstWeekendBoxOffice;
 	}
 	
-	public void setFirstWeekendBoxOffice(String firstWeekendBoxOffice) {
+	//为了生成表 暂时修改此方法
+	public MovieDetails setFirstWeekendBoxOffice(String firstWeekendBoxOffice) {
 		this.firstWeekendBoxOffice = firstWeekendBoxOffice;
+		return this;
 	}
 	
-	public String toString() {
-		return "MovieDetails [name=" + name + ", type=" + type + ", duration=" + duration + ", releaseTime="
-				+ releaseTime + ", releasedDays=" + releasedDays + ", standard=" + standard + ", country=" + country
-				+ ", company=" + company + ", realtimeBoxOffice=" + realtimeBoxOffice + ", amountBoxOffice="
-				+ amountBoxOffice + ", experimentBoxOffice=" + experimentBoxOffice + ", firstDayBoxOffice="
-				+ firstDayBoxOffice + ", firstWeekBoxOffice=" + firstWeekBoxOffice + ", firstWeekendBoxOffice="
-				+ firstWeekendBoxOffice + "]";
-	}
+
 
 }

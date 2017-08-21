@@ -2,12 +2,24 @@ package cn.itcast.spider.dto;
 
 import java.io.Serializable;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 /**
  * 每个电脑实时数据
  * @author jack
  *
  */
+@Entity
+@Table(name="realtimeBoxOffice")
 public class RealtimeBoxOffice implements Serializable{
+
+	@Id
+    @GeneratedValue(strategy=GenerationType.AUTO)
+    private long id ;
 	//片名
 	private String name;
 	//总票房
@@ -22,6 +34,14 @@ public class RealtimeBoxOffice implements Serializable{
 	private String screeningRatio;
 	//明日理想片场
 	private String tomorrowScreenings;
+	
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
 	
 	public String getName() {
 		return name;
@@ -75,14 +95,10 @@ public class RealtimeBoxOffice implements Serializable{
 		return tomorrowScreenings;
 	}
 	
-	public void setTomorrowScreenings(String tomorrowScreenings) {
+	public RealtimeBoxOffice setTomorrowScreenings(String tomorrowScreenings) {
 		this.tomorrowScreenings = tomorrowScreenings;
+		return this;
 	}
 
-	public String toString() {
-		return "RealtimeBoxOffice [name=" + name + ", amountBoxOffice=" + amountBoxOffice + ", releasedDays="
-				+ releasedDays + ", realtimeBoxOffice=" + realtimeBoxOffice + ", boxOfficeRatio=" + boxOfficeRatio
-				+ ", screeningRatio=" + screeningRatio + ", tomorrowScreenings=" + tomorrowScreenings + "]";
-	}
 
 }

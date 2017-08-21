@@ -29,20 +29,20 @@ public class SpiderController {
 	
 	/**
 	 * 根据电影Id获取电影详细信息
-	 * url:http:127.0.0.1:8080//spider-web/movieDetails/641515
+	 * url:http:127.0.0.1:8080/spider-web/movieDetails/641515
 	 * @param mid
 	 * @return MovieDetails
 	 */
 	@RequestMapping("/movieDetails/{mid}")
 	@ResponseBody
-	public MovieDetails test2(@PathVariable(value="mid") String mid){
+	public MovieDetails movieDetails(@PathVariable(value="mid") String mid){
 		MovieDetails movieDetails = cboooSpiderService.movieDetails(mid);
 		return movieDetails;
 	}
 	
 	/**
 	 * 根据电影Id获取电影每日票房信息
-	 * url:http:127.0.0.1:8080//spider-web/historyBoxOffice/641515
+	 * url:http:127.0.0.1:8080/spider-web/historyBoxOffice/641515
 	 * @param mid
 	 * @return HistoryBoxOffice
 	 */
@@ -55,7 +55,7 @@ public class SpiderController {
 	
 	/**
 	 * 查询实时排行榜票房信息
-	 * url:http:127.0.0.1:8080//spider-web/realtimeRank
+	 * url:http:127.0.0.1:8080/spider-web/realtimeRank
 	 * @return RealtimeRank
 	 */
 	@RequestMapping("/realtimeRank")
