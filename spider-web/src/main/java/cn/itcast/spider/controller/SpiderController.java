@@ -75,15 +75,25 @@ public class SpiderController {
 	}
 	
 	/**
-	 * 更新电影详细信息
+	 * 更新(保存)电影详细信息
 	 * url:http:127.0.0.1:8080/spider-web/updateMovieDetails
 	 * 
 	 */
 	@RequestMapping("/updateMovieDetails")
-	public String updateData(){
+	public String updateMovieDetails(){
 		timingSpiderService.saveRankMovieDetails(cboooSpiderService.GetMidList());
 		return "SUCCESS";
 	}
 	
+	/**
+	 * 更新(保存)电影历史每天数据
+	 * url:http:127.0.0.1:8080/spider-web/updateHistoryBoxOffice
+	 * 
+	 */
+	@RequestMapping("/updateHistoryBoxOffice")
+	public String updateHistoryBoxOffice(){
+		timingSpiderService.saveHistoryBoxOffice(cboooSpiderService.GetMidList());
+		return "SUCCESS";
+	}
 	
 }

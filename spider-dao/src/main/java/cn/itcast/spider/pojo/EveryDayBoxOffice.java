@@ -19,6 +19,9 @@ public class EveryDayBoxOffice implements Serializable{
 	@Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private long id ;
+	// 电影id
+	
+	private String mid;
 	// 日期
 	private String InsertDate;
 	// 星期几
@@ -30,6 +33,15 @@ public class EveryDayBoxOffice implements Serializable{
 	// 拍片占比
 	private String ShowPercent;
 	
+	
+	public String getMid() {
+		return mid;
+	}
+
+	public void setMid(String mid) {
+		this.mid = mid;
+	}
+
 	public long getId() {
 		return id;
 	}
@@ -79,5 +91,7 @@ public class EveryDayBoxOffice implements Serializable{
 		ShowPercent = showPercent;
 		return this;
 	}
+
+
 	
 }

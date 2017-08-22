@@ -166,17 +166,6 @@ public class MovieDetails implements Serializable{
 		return this;
 	}
 
-	@Override
-	public String toString() {
-		return "MovieDetails [id=" + id + ", name=" + name + ", type=" + type + ", duration=" + duration
-				+ ", releaseTime=" + releaseTime + ", releasedDays=" + releasedDays + ", standard=" + standard
-				+ ", country=" + country + ", company=" + company + ", realtimeBoxOffice=" + realtimeBoxOffice
-				+ ", amountBoxOffice=" + amountBoxOffice + ", experimentBoxOffice=" + experimentBoxOffice
-				+ ", firstDayBoxOffice=" + firstDayBoxOffice + ", firstWeekBoxOffice=" + firstWeekBoxOffice
-				+ ", firstWeekendBoxOffice=" + firstWeekendBoxOffice + "]";
-	}
-
-
 
 
 }
