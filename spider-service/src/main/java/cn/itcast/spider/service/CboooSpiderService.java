@@ -5,6 +5,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.http.HttpEntity;
 
@@ -15,6 +17,7 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
 
@@ -156,6 +159,29 @@ public class CboooSpiderService {
 			e.printStackTrace();
 			throw new RuntimeException();
 		}
-
+	}
+	/**
+	 * 获取排行榜上的 mid集合
+	 * @return List<String> midList
+	 */
+	public List<String> GetMidList(){
+		
+		ArrayList<String> arrayList = new ArrayList<>();
+		
+		try {
+			Document doc = Jsoup.connect("http://m.cbooo.cn/").data("query", "Java").userAgent("Mozilla")
+					.cookie("auth", "token").timeout(3000).get();
+			Element element = doc.getElementsByClass("js_bg").get(0).select("tbody").get(0);
+			Pattern p = Pattern.compile("Mid=[^\r']+");
+			Matcher matcher = p.matcher(element.html());
+			while(matcher.find()){
+				arrayList.add(matcher.group(0).substring(4));
+			}
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return arrayList;
 	}
 }

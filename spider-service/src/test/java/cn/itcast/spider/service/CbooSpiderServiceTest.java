@@ -67,5 +67,16 @@ public class CbooSpiderServiceTest {
 		emf.close();
 	}
 	
+	/*
+	 * 测试爬取midList
+	 */
+	@Test
+	public void GetMidListTest(){
+		List<String> midList = spiderService.GetMidList();
+		for (String string : midList) {
+			System.out.println(string);
+		}
+	}
+	
 
 }

@@ -10,19 +10,20 @@ import cn.itcast.spider.dao.MovieDetailsDao;
 import cn.itcast.spider.pojo.MovieDetails;
 
 @Service
-public class SaveDataService {
+public class TimingSpiderService {
 
 	@Resource
 	private MovieDetailsDao movieDetailsDao;
 
-	
 	/**
 	 * 持久化电影信息
 	 * 
 	 */
-	public void saveMovieDetails(String movieId){
-		CboooSpiderService cboooSpiderService = new CboooSpiderService();
-		MovieDetails movieDetails = cboooSpiderService.movieDetails(movieId);
-		
+	public void saveRankMovieDetails(List<String> midList){
+		CboooSpiderService cboooService = new CboooSpiderService();
+		for (String string : midList) {
+			MovieDetails movieDetails = cboooService.movieDetails(string);
+			movieDetailsDao.save(movieDetails);
+		}
 	}
 }
