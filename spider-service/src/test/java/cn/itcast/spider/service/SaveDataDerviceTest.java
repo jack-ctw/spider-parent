@@ -1,12 +1,9 @@
-package cn.itcast.sprider.dao;
-
-import java.util.List;
+package cn.itcast.spider.service;
 
 import javax.annotation.Resource;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -14,19 +11,18 @@ import cn.itcast.spider.dao.MovieDetailsDao;
 import cn.itcast.spider.pojo.MovieDetails;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration({"classpath:/spring/applicationContext-dao.xml"})							
-public class MovieDetailsDaoTest {
-
+@ContextConfiguration({"classpath:/spring/applicationContext-dao.xml"})
+public class SaveDataDerviceTest {
+	
 	@Resource
 	private MovieDetailsDao movieDetailsDao;
 	
-	
-	/*
-	 *	测试连通数据库
-	 */
 	@Test
-	public void testfindByName(){
+	public void saveMovieDetailsTest(){
+		CboooSpiderService cbsevice = new CboooSpiderService();
 		System.out.println(movieDetailsDao);
-//		System.out.println(movieDetailsDao.findByName("test").get(0));
+		MovieDetails movieDetails = cbsevice.movieDetails("641515");
+		movieDetailsDao.save(movieDetails);
+		
 	}
 }

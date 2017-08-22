@@ -3,7 +3,7 @@
     <persistence-unit name="JPATest" transaction-type="RESOURCE_LOCAL">
         <provider>org.hibernate.ejb.HibernatePersistence</provider>
        
-         <class>RealtimeRank</class>
+         <class>MovieDetails</class>
         <properties>
             <property name="hibernate.connection.c3p0" value="com.mchange.v2.c3p0.ComboPooledDataSource"/>
             <property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/spider"/>

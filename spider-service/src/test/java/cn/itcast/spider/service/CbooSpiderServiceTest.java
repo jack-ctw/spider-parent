@@ -9,9 +9,9 @@ import javax.persistence.Persistence;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import cn.itcast.spider.dto.EveryDayBoxOffice;
+import cn.itcast.spider.pojo.EveryDayBoxOffice;
 import cn.itcast.spider.dto.HistoryBoxOffice;
-import cn.itcast.spider.dto.MovieDetails;
+import cn.itcast.spider.pojo.MovieDetails;
 import cn.itcast.spider.dto.RealtimeBoxOffice;
 import cn.itcast.spider.dto.RealtimeRank;
 import cn.itcast.spider.service.CboooSpiderService;
@@ -55,6 +55,7 @@ public class CbooSpiderServiceTest {
 	/*
 	 * 测试Jpa生成表测试 
 	 * 根据类生成表
+	 * 使用此方法需要修改类的set方法
 	 */
 	@Test
 	public void createTableByAPI(){

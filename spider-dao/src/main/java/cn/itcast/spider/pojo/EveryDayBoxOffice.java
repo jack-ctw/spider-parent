@@ -1,4 +1,4 @@
-package cn.itcast.spider.dto;
+package cn.itcast.spider.pojo;
 
 import java.io.Serializable;
 

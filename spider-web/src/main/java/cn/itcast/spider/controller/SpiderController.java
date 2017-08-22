@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import cn.itcast.spider.dto.HistoryBoxOffice;
-import cn.itcast.spider.dto.MovieDetails;
 import cn.itcast.spider.dto.RealtimeRank;
+import cn.itcast.spider.pojo.MovieDetails;
 import cn.itcast.spider.service.CboooSpiderService;
 
 @Controller

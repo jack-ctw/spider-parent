@@ -2,6 +2,8 @@ package cn.itcast.spider.dto;
 
 import java.io.Serializable;
 import java.util.List;
+
+import cn.itcast.spider.pojo.EveryDayBoxOffice;
 /**
  * 单个电影历史每日的数据(所有)
  * @author jack

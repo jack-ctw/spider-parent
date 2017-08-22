@@ -10,12 +10,10 @@ import javax.persistence.*;
  * @author jack
  *
  */
-@Entity
-@Table(name="realtimeBoxOffice")
+
 public class RealtimeBoxOffice implements Serializable{
 
-	@Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+
     private long id ;
 	//片名
 	private String name;
@@ -92,9 +90,9 @@ public class RealtimeBoxOffice implements Serializable{
 		return tomorrowScreenings;
 	}
 	
-	public RealtimeBoxOffice setTomorrowScreenings(String tomorrowScreenings) {
+	public void setTomorrowScreenings(String tomorrowScreenings) {
 		this.tomorrowScreenings = tomorrowScreenings;
-		return this;
+		
 	}
 
 
