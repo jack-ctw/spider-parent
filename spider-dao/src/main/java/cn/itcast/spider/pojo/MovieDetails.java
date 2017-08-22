@@ -161,9 +161,18 @@ public class MovieDetails implements Serializable{
 	}
 	
 	//为了生成表 暂时修改此方法
-	public MovieDetails setFirstWeekendBoxOffice(String firstWeekendBoxOffice) {
+	public void setFirstWeekendBoxOffice(String firstWeekendBoxOffice) {
 		this.firstWeekendBoxOffice = firstWeekendBoxOffice;
-		return this;
+	}
+
+	@Override
+	public String toString() {
+		return "MovieDetails [id=" + id + ", name=" + name + ", type=" + type + ", duration=" + duration
+				+ ", releaseTime=" + releaseTime + ", releasedDays=" + releasedDays + ", standard=" + standard
+				+ ", country=" + country + ", company=" + company + ", realtimeBoxOffice=" + realtimeBoxOffice
+				+ ", amountBoxOffice=" + amountBoxOffice + ", experimentBoxOffice=" + experimentBoxOffice
+				+ ", firstDayBoxOffice=" + firstDayBoxOffice + ", firstWeekBoxOffice=" + firstWeekBoxOffice
+				+ ", firstWeekendBoxOffice=" + firstWeekendBoxOffice + "]";
 	}
 	
 
