@@ -5,8 +5,6 @@ import java.util.List;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import cn.itcast.spider.dao.MovieDetailsDao;
 import cn.itcast.spider.pojo.MovieDetails;

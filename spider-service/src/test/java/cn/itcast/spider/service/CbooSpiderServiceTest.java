@@ -8,10 +8,7 @@ import javax.persistence.Persistence;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import cn.itcast.spider.dao.MovieDetailsDao;
 import cn.itcast.spider.dto.EveryDayBoxOffice;
 import cn.itcast.spider.dto.HistoryBoxOffice;
 import cn.itcast.spider.dto.MovieDetails;
@@ -29,7 +26,7 @@ public class CbooSpiderServiceTest {
 	 * 测试movieDetails接口
 	 */
 	@Test
-	public void test1(){
+	public void movieDetailsTest(){
 		MovieDetails movieDetails = spiderService.movieDetails("641515");
 		System.out.println(movieDetails);
 	}
@@ -38,7 +35,7 @@ public class CbooSpiderServiceTest {
 	 * 测试historyBoxOffice接口
 	 */
 	@Test 
-	public void test2(){
+	public void historyBoxOfficeTest(){
 		HistoryBoxOffice historyBoxOffice = spiderService.historyBoxOffice("641515");
 		System.out.println(historyBoxOffice.getData1());
 	}
@@ -46,7 +43,7 @@ public class CbooSpiderServiceTest {
 	 * 测试RealtimeRank接口
 	 */
 	@Test
-	public void test3(){
+	public void realtimeRankTest(){
 		RealtimeRank realtimeRank = spiderService.realtimeRank();
 		System.out.println(realtimeRank.getRealtimeAmountBoxOffice());
 		List<RealtimeBoxOffice> list = realtimeRank.getAllRealtimeBoxOffice();
@@ -57,10 +54,10 @@ public class CbooSpiderServiceTest {
 	}
 	/*
 	 * 测试Jpa生成表测试 
-	 * 生成MovieDetails
+	 * 根据类生成表
 	 */
 	@Test
-	public void test4(){
+	public void createTableByAPI(){
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("JPATest");
 		EntityManager em = emf.createEntityManager();
 		em.getTransaction().begin();
