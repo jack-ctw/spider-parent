@@ -15,7 +15,7 @@
         <mvc:default-servlet-handler/>
 
         <!-- 配置组件扫描controller -->
-        <context:component-scan base-package="cn.itcast.spider"/>
+        <context:component-scan base-package="cn.itcast.spider.controller"/>
         
         <!-- 注解驱动配置处理器映射器，处理器适配器 -->
         <mvc:annotation-driven/>
@@ -28,5 +28,6 @@
         	<!-- 配置视图的扩展名称 -->
         	<property name="suffix" value=".jsp"/>
         </bean>
-
+        
+		
 </beans>

@@ -1,4 +1,4 @@
-package cn.itcast.spider.pojo;
+package cn.itcast.spider.entity;
 
 import java.io.Serializable;
 
@@ -7,20 +7,21 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
 /**
  * 单个电影历史每日数据(1天)
+ * 
  * @author jack
  *
  */
 @Entity
-@Table(name="everyDayBoxOffice")
-public class EveryDayBoxOffice implements Serializable{
-	
+@Table(name = "everyDayBoxOffice")
+public class EveryDayBoxOffice implements Serializable {
+
 	@Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
-    private long id ;
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private long id;
 	// 电影id
-	
 	private String mid;
 	// 日期
 	private String InsertDate;
@@ -32,8 +33,7 @@ public class EveryDayBoxOffice implements Serializable{
 	private String BoxPercent;
 	// 拍片占比
 	private String ShowPercent;
-	
-	
+
 	public String getMid() {
 		return mid;
 	}
@@ -49,7 +49,7 @@ public class EveryDayBoxOffice implements Serializable{
 	public void setId(long id) {
 		this.id = id;
 	}
-	
+
 	public String getInsertDate() {
 		return InsertDate;
 	}
@@ -61,37 +61,35 @@ public class EveryDayBoxOffice implements Serializable{
 	public String getReleaseDay() {
 		return ReleaseDay;
 	}
-	
+
 	public void setReleaseDay(String releaseDay) {
 		ReleaseDay = releaseDay;
 	}
-	
+
 	public String getBoxoffice() {
 		return Boxoffice;
 	}
-	
+
 	public void setBoxoffice(String boxoffice) {
 		Boxoffice = boxoffice;
 	}
-	
+
 	public String getBoxPercent() {
 		return BoxPercent;
 	}
-	
+
 	public void setBoxPercent(String boxPercent) {
 		BoxPercent = boxPercent;
 	}
-	
+
 	public String getShowPercent() {
 		return ShowPercent;
 	}
-	
-	//为了生成表 暂时修改此方法
+
+	// 为了生成表 暂时修改此方法
 	public EveryDayBoxOffice setShowPercent(String showPercent) {
 		ShowPercent = showPercent;
 		return this;
 	}
 
-
-	
 }

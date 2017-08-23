@@ -7,19 +7,17 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import cn.itcast.spider.pojo.EveryDayBoxOffice;
 import cn.itcast.spider.dto.HistoryBoxOffice;
-import cn.itcast.spider.pojo.MovieDetails;
 import cn.itcast.spider.dto.RealtimeBoxOffice;
 import cn.itcast.spider.dto.RealtimeRank;
-import cn.itcast.spider.service.CboooSpiderService;
-
+import cn.itcast.spider.entity.MovieDetails;
 
 public class CbooSpiderServiceTest {
 	
-	CboooSpiderService spiderService = new CboooSpiderService();
+	@Autowired
+	CboooSpiderService spiderService;
 	
 	
 	/*
@@ -30,8 +28,8 @@ public class CbooSpiderServiceTest {
 		MovieDetails movieDetails = spiderService.movieDetails("641515");
 		System.out.println(movieDetails);
 	}
+/*	
 	
-	/*
 	 * 测试historyBoxOffice接口
 	 */
 	@Test 
@@ -39,7 +37,7 @@ public class CbooSpiderServiceTest {
 		HistoryBoxOffice historyBoxOffice = spiderService.historyBoxOffice("641515");
 		System.out.println(historyBoxOffice.getData1());
 	}
-	/*
+/*	
 	 * 测试RealtimeRank接口
 	 */
 	@Test
@@ -52,7 +50,7 @@ public class CbooSpiderServiceTest {
 			System.out.println("============");
 		}
 	}
-	/*
+/*	
 	 * 测试Jpa生成表测试 
 	 * 根据类生成表
 	 * 使用此方法需要修改类的set方法
@@ -62,7 +60,7 @@ public class CbooSpiderServiceTest {
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("JPATest");
 		EntityManager em = emf.createEntityManager();
 		em.getTransaction().begin();
-		em.persist(new MovieDetails().setFirstWeekendBoxOffice("123"));
+		em.persist(new MovieDetails().setFirstWeekendBoxOffice("te1t"));
 		em.getTransaction().commit();
 		emf.close();
 	}
@@ -72,7 +70,7 @@ public class CbooSpiderServiceTest {
 	 */
 	@Test
 	public void GetMidListTest(){
-		List<String> midList = spiderService.GetMidList();
+		List<String> midList = spiderService.getMidList();
 		for (String string : midList) {
 			System.out.println(string);
 		}

@@ -25,7 +25,7 @@ import com.alibaba.fastjson.JSON;
 
 import cn.itcast.spider.dto.HistoryBoxOffice;
 import cn.itcast.spider.dto.RealtimeRank;
-import cn.itcast.spider.pojo.MovieDetails;
+import cn.itcast.spider.entity.MovieDetails;
 import cn.itcast.spider.dto.RealtimeBoxOffice;
 
 @Service
@@ -164,7 +164,7 @@ public class CboooSpiderService {
 	 * 获取排行榜上的 mid集合
 	 * @return List<String> midList
 	 */
-	public List<String> GetMidList(){
+	public List<String> getMidList(){
 		
 		ArrayList<String> arrayList = new ArrayList<>();
 		

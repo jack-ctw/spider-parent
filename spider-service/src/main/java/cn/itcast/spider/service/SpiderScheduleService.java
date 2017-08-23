@@ -4,21 +4,26 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import cn.itcast.spider.dao.EveryDayBoxOfficeDao;
 import cn.itcast.spider.dao.MovieDetailsDao;
 import cn.itcast.spider.dto.HistoryBoxOffice;
-import cn.itcast.spider.pojo.EveryDayBoxOffice;
-import cn.itcast.spider.pojo.MovieDetails;
+import cn.itcast.spider.entity.EveryDayBoxOffice;
+import cn.itcast.spider.entity.MovieDetails;
 
-@Service
-public class TimingSpiderService {
+//组件
+@Component
+public class SpiderScheduleService {
 
-	@Resource
+	@Autowired
 	private MovieDetailsDao movieDetailsDao;
-	@Resource
+	@Autowired
 	private EveryDayBoxOfficeDao everyDayBoxOfficeDao;
+	@Autowired
+	private CboooSpiderService cboooService;
 	
 	/**
 	 * 测试Quartz
@@ -31,20 +36,22 @@ public class TimingSpiderService {
 	 * 持久化电影信息
 	 * @param midList
 	 */
-	public void saveRankMovieDetails(List<String> midList){
-		CboooSpiderService cboooService = new CboooSpiderService();
+	public void saveRankMovieDetails(){
+		List<String> midList = cboooService.getMidList();
 		for (String string : midList) {
 			MovieDetails movieDetails = cboooService.movieDetails(string);
+			movieDetails.setMid(string);
 			movieDetailsDao.save(movieDetails);
 		}
+		System.out.println("持久化电影信息导入成功");
 	}
 	
 	/**
 	 * 持久化电影每日信息
 	 * @param midList
 	 */
-	public void saveHistoryBoxOffice(List<String> midList){
-		CboooSpiderService cboooService = new CboooSpiderService();
+	public void saveHistoryBoxOffice(){
+		List<String> midList = cboooService.getMidList();
 		//获取排行榜的电影
 		for (String mid : midList) {
 			//获得该电影每一天数据
@@ -56,5 +63,6 @@ public class TimingSpiderService {
 				everyDayBoxOfficeDao.save(everyDayBoxOffice);
 			}
 		}
+		System.out.println("持久化电影每日信息导入成功");
 	}
 }
