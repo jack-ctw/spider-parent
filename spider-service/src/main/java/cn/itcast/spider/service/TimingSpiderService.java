@@ -20,6 +20,12 @@ public class TimingSpiderService {
 	@Resource
 	private EveryDayBoxOfficeDao everyDayBoxOfficeDao;
 	
+	/**
+	 * 测试Quartz
+	 */
+	public void quartzTest(){
+		System.out.println("成功执行...");
+	}
 
 	/**
 	 * 持久化电影信息
