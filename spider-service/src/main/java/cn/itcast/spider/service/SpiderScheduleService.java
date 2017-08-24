@@ -45,23 +45,23 @@ public class SpiderScheduleService {
 			// 查询出电影信息
 			MovieDetails movieDetails = cboooService.movieDetails(mid);
 			List<MovieDetails> movieDetailsList = movieDetailsDao.findByMid(mid);
-			
+
 			// 如果不存在这个电影
-			if (movieDetailsList == null||movieDetailsList.size()==0) {
+			if (movieDetailsList == null || movieDetailsList.size() == 0) {
 				movieDetails.setMid(mid);
 				movieDetailsDao.save(movieDetails);
-				System.out.println("成功添加电影信息:"+movieDetails.getName());
-				
+				System.out.println("成功添加电影信息:" + movieDetails.getName());
+
 			} else {
 				// 存在这个电影,则修改
 				// 将mid传给爬下来的数据
 				Long exitMid = movieDetailsList.get(0).getId();
 				movieDetails.setId(exitMid);
 				movieDetailsDao.save(movieDetails);
-				System.out.println("成功更新电影信息:"+movieDetails.getName());
+				System.out.println("成功更新电影信息:" + movieDetails.getName());
 			}
 		}
-	
+
 	}
 
 	/**
@@ -73,19 +73,30 @@ public class SpiderScheduleService {
 		List<String> midList = cboooService.getMidList();
 		// 获取排行榜的电影
 		for (String mid : midList) {
+
 			// 获得该电影每一天数据
 			HistoryBoxOffice historyBoxOffice = cboooService.historyBoxOffice(mid);
-			List<EveryDayBoxOffice> erveryDayBoxOfficeList = historyBoxOffice.getData1();
-			for (EveryDayBoxOffice everyDayBoxOffice : erveryDayBoxOfficeList) {
-				if (everyDayBoxOfficeDao.findByMid(mid) == null) {
-					// 表里没此mid,保存每一天数据
+
+			// 判断是否存在此mid的数据
+			List<EveryDayBoxOffice> erveryDayBoxOfficeList = everyDayBoxOfficeDao.findByMid(mid);
+
+			// 没mid,保存每一天数据
+			if (everyDayBoxOfficeDao.findByMid(mid) == null || erveryDayBoxOfficeList.size() == 0) {
+				List<EveryDayBoxOffice> ereryDayBoxOfficeList = historyBoxOffice.getData1();
+				for (EveryDayBoxOffice everyDayBoxOffice : ereryDayBoxOfficeList) {
 					everyDayBoxOffice.setMid(mid);
 					everyDayBoxOfficeDao.save(everyDayBoxOffice);
-				} else {
-					// 有次mid,添加最后一个索引的值
+					System.out.println("添加mid为"+mid+"电影"+everyDayBoxOffice.getInsertDate()+"号数据");
 				}
+			} else {
+				// 有mid,将昨天的数据更新进表里 (每天8点更新)
+				int lastIndex = historyBoxOffice.getData1().size()-2;
+				EveryDayBoxOffice everyDayBoxOffice = historyBoxOffice.getData1().get(lastIndex);
+				everyDayBoxOffice.setMid(mid);
+				everyDayBoxOfficeDao.save(everyDayBoxOffice);
+				System.out.println("更新mid为"+mid+"电影,"+everyDayBoxOffice.getInsertDate()+"号数据");
 			}
+			
 		}
-		System.out.println("持久化电影每日信息导入成功");
 	}
 }
