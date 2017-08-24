@@ -8,5 +8,8 @@ import cn.itcast.spider.entity.User;
 
 
 public interface UserDao extends JpaRepository<User, String>{
+	/*
+	 * 判断用户是否存在
+	 */
 	List<User> findByUserCode(String userCode);
 }

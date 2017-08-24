@@ -1,7 +1,6 @@
 package cn.itcast.spider.service;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,8 +22,8 @@ public class UserService {
 	 */
 	public void registered(User user) throws MyException{
 		String message ="";
-		User exitUser = userDao.findByUserCode(user.getUserCode()).get(0);
-		if (exitUser == null) {
+		 List<User> userList = userDao.findByUserCode(user.getUserCode());
+		if (userList == null || userList.size() == 0) {
 			userDao.save(user);
 		} else {
 			message="注册失败";
@@ -40,18 +39,20 @@ public class UserService {
 	 */
 	public User login(User user) throws MyException{
 		String message="";
-		User exitUser = userDao.findByUserCode(user.getUserCode()).get(0);
-		if (exitUser == null) {
-			message="登录失败";
+		List<User> userList = userDao.findByUserCode(user.getUserCode());
+		
+		if (userList == null || userList.size() ==0) {
+			message="登录失败123";
 			throw new MyException(message);
 		}else{
-			if(user.getPassWord()==exitUser.getPassWord()){
+			User exitUser = userList.get(0);
+			if(user.getPassWord().equals(exitUser.getPassWord())){
+				return exitUser;
 			}else {
-				message="登录失败";
+				message="登录失败456";
 				throw new MyException(message);
 			}
 		}
-		return exitUser;
 	}
 	
 }
