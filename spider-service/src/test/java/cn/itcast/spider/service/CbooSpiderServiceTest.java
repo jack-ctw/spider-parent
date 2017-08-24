@@ -7,13 +7,19 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import cn.itcast.spider.dto.HistoryBoxOffice;
 import cn.itcast.spider.dto.RealtimeBoxOffice;
 import cn.itcast.spider.dto.RealtimeRank;
 import cn.itcast.spider.entity.MovieDetails;
+import cn.itcast.spider.entity.User;
 
+@RunWith(SpringJUnit4ClassRunner.class) 
+@ContextConfiguration({"classpath:/spring/applicationContext.xml"})
 public class CbooSpiderServiceTest {
 	
 	@Autowired
@@ -60,7 +66,7 @@ public class CbooSpiderServiceTest {
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("JPATest");
 		EntityManager em = emf.createEntityManager();
 		em.getTransaction().begin();
-		em.persist(new MovieDetails().setFirstWeekendBoxOffice("te1t"));
+		em.persist(new User().setSex("1234"));
 		em.getTransaction().commit();
 		emf.close();
 	}

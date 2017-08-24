@@ -7,6 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-	hello world
+	首页..
 </body>
 </html>
