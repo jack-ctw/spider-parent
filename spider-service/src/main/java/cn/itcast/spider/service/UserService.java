@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import cn.itcast.spider.dao.UserDao;
 import cn.itcast.spider.entity.User;
+import cn.itcast.spider.info.MyException;
 
 @Service
 public class UserService {
@@ -18,14 +19,16 @@ public class UserService {
 	 * 用户注册
 	 * @param user
 	 * @return String
+	 * @throws MyException 
 	 */
-	public void registered(User user){
-		String messge ="";
+	public void registered(User user) throws MyException{
+		String message ="";
 		User exitUser = userDao.findByUserCode(user.getUserCode()).get(0);
 		if (exitUser == null) {
 			userDao.save(user);
 		} else {
-			messge="该账号已被注册";
+			message="注册失败";
+			throw new MyException(message);
 		}
 	}
 	
@@ -33,20 +36,22 @@ public class UserService {
 	 * 用户登录             
 	 * @param user
 	 * @return
+	 * @throws MyException 
 	 */
-	public String login(User user){
+	public User login(User user) throws MyException{
 		String message="";
 		User exitUser = userDao.findByUserCode(user.getUserCode()).get(0);
 		if (exitUser == null) {
-			message="账号,请重新输入";
+			message="登录失败";
+			throw new MyException(message);
 		}else{
 			if(user.getPassWord()==exitUser.getPassWord()){
-				message="登录ok";
 			}else {
-				message="密码错误,请重新输入";
+				message="登录失败";
+				throw new MyException(message);
 			}
 		}
-		return message;
+		return exitUser;
 	}
 	
 }
