@@ -43,7 +43,6 @@
 		<property name="concurrent" value="false"></property>
 	</bean> -->
 
-
 	<!-- 3) 配置任务执行触发器，注入任务明细、注入任务执行表达式 -->
 	<bean id="trigger_1"
 		class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">

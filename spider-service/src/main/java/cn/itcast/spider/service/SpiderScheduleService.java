@@ -45,18 +45,18 @@ public class SpiderScheduleService {
 			// 查询出电影信息
 			MovieDetails movieDetails = cboooService.movieDetails(mid);
 			List<MovieDetails> movieDetailsList = movieDetailsDao.findByMid(mid);
-
 			// 如果不存在这个电影
 			if (movieDetailsList == null || movieDetailsList.size() == 0) {
 				movieDetails.setMid(mid);
 				movieDetailsDao.save(movieDetails);
 				System.out.println("成功添加电影信息:" + movieDetails.getName());
-
 			} else {
 				// 存在这个电影,则修改
-				// 将mid传给爬下来的数据
-				Long exitMid = movieDetailsList.get(0).getId();
-				movieDetails.setId(exitMid);
+				// id mid 传给查询的电影信息
+				String exitMid = movieDetailsList.get(0).getMid();
+				Long id = movieDetailsList.get(0).getId();
+				movieDetails.setId(id);
+				movieDetails.setMid(exitMid);
 				movieDetailsDao.save(movieDetails);
 				System.out.println("成功更新电影信息:" + movieDetails.getName());
 			}
