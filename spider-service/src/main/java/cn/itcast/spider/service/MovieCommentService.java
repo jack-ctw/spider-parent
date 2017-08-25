@@ -11,6 +11,7 @@ import cn.itcast.spider.dao.MovieDetailsDao;
 import cn.itcast.spider.entity.MovieComment;
 import cn.itcast.spider.entity.MovieDetails;
 import cn.itcast.spider.entity.MovieScore;
+import cn.itcast.spider.info.UserException;
 
 /**
  * 电影评论模块
@@ -25,37 +26,49 @@ public class MovieCommentService {
 	private MovieCommentDao moiveCommentDao;
 	@Autowired
 	private MovieDetailsDao movieDetailsDao;
-	
+
 	/**
 	 * 增加评论
 	 * 
 	 */
-	public void insertMovieComment(MovieComment movieComment){
+	public void insertMovieComment(MovieComment movieComment) {
 		moiveCommentDao.save(movieComment);
 	}
 
 	/**
-	 * 用户查询自己评论过的电影
-	 * TODO :名字和score的太像了
+	 * 用户查询自己评论过的电影 TODO :名字和score的太像了
+	 * 
+	 * @throws UserException
 	 */
-	public List<MovieDetails> queryMovieDetailsByUserCode(String userCode) {
-		// 创建集合保存电影信息
-		List<MovieDetails> movieDetailsList = new ArrayList<>();
-		List<MovieComment> MoveCommentList = moiveCommentDao.findByUserCode(userCode);
-		for (MovieComment movieComment : MoveCommentList) {
-			String mid = movieComment.getMid();
-			MovieDetails movieDetails = movieDetailsDao.findByMid(mid).get(0);
-			movieDetailsList.add(movieDetails);
+	public List<MovieDetails> queryMovieDetailsByUserCode(String userCode) throws UserException {
+		if (userCode != null) {
+			// 创建集合保存电影信息
+			List<MovieDetails> movieDetailsList = new ArrayList<>();
+			List<MovieComment> MoveCommentList = moiveCommentDao.findByUserCode(userCode);
+			for (MovieComment movieComment : MoveCommentList) {
+				String mid = movieComment.getMid();
+				MovieDetails movieDetails = movieDetailsDao.findByMid(mid).get(0);
+				movieDetailsList.add(movieDetails);
+			}
+			return movieDetailsList;
+		} else {
+			throw new UserException("登陆异常");
 		}
-		return movieDetailsList;
+
 	}
 
 	/**
 	 * 根据该电影的所有评论
+	 * @throws UserException 
 	 */
-	public List<MovieComment> QueryCommentsByMid(String mid) {
-		List<MovieComment> MovieCommentList = moiveCommentDao.findByMid(mid);
-		return MovieCommentList;
+	public List<MovieComment> QueryCommentsByMid(String mid) throws UserException {
+
+		if (mid != null) {
+			List<MovieComment> MovieCommentList = moiveCommentDao.findByMid(mid);
+			return MovieCommentList;
+		}else{
+			throw new UserException("没有此电影");
+		}
 	}
 
 }

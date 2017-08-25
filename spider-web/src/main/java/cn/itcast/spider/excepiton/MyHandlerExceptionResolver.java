@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.ModelAndView;
 
-import cn.itcast.spider.info.MyException;
+import cn.itcast.spider.info.UserException;
 
 /**
  * 自定义异常处理解析器
@@ -19,11 +19,11 @@ public class MyHandlerExceptionResolver implements HandlerExceptionResolver {
 	@Override
 	public ModelAndView resolveException(HttpServletRequest request, HttpServletResponse response, Object objcet,
 			Exception exception) {
-		MyException myException = null;
-		if (exception instanceof MyException) {
-			myException = (MyException) exception;
+		UserException myException = null;
+		if (exception instanceof UserException) {
+			myException = (UserException) exception;
 		} else {
-			myException = new MyException("未知异常");
+			myException = new UserException("未知异常");
 		}
 		ModelAndView mav = new ModelAndView();
 		// 根据异常信息处理

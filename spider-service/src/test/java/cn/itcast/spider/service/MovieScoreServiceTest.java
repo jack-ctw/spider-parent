@@ -7,6 +7,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import cn.itcast.spider.entity.MovieScore;
+import cn.itcast.spider.info.UserException;
 
 @RunWith(SpringJUnit4ClassRunner.class) 
 @ContextConfiguration({"classpath:/spring/applicationContext.xml"})
@@ -17,9 +18,11 @@ public class MovieScoreServiceTest {
 	
 	/**
 	 * 测试评分
+	 * @throws UserException 
 	 */
 	@Test
-	public void insertMovieScoreTest(){
+	public void insertMovieScoreTest() throws UserException{
+		
 		MovieScore movieScore = new MovieScore();
 		movieScore.setId((long) 1);
 		movieScore.setMid("641515");
@@ -33,6 +36,7 @@ public class MovieScoreServiceTest {
 	 */
 	@Test
 	public void getAvgScoreTest(){
+		
 		String avgScore = movieScoreService.getAvgScore("641515");
 		System.out.println(avgScore);
 	}

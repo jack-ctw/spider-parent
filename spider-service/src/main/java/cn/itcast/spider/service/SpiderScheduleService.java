@@ -33,18 +33,13 @@ public class SpiderScheduleService {
 	private MovieScoreService movieScoreService;
 
 	/**
-	 * 测试Quartz
-	 */
-	public void quartzTest() {
-		System.out.println("成功执行...");
-	}
-
-	/**
 	 * 持久化电影信息
 	 * 
 	 * @param midList
 	 */
+	
 	public void saveRankMovieDetails() {
+		
 		List<String> midList = cboooService.getMidList();
 		for (String mid : midList) {
 			// 查询出电影信息
@@ -60,14 +55,17 @@ public class SpiderScheduleService {
 			} else {
 				// 存在这个电影,则修改
 				// id mid 传给查询的电影信息
-				String exitMid = movieDetailsList.get(0).getMid();
-				Long id = movieDetailsList.get(0).getId();
-				movieDetails.setId(id);
-				movieDetails.setMid(exitMid);
-				// 设置平均分
+				MovieDetails movieDetails2 = movieDetailsList.get(0);
+				movieDetails2.setAmountBoxOffice(movieDetails.getAmountBoxOffice());
+				movieDetails2.setExperimentBoxOffice(movieDetails.getExperimentBoxOffice());
+				movieDetails2.setFirstDayBoxOffice(movieDetails.getFirstDayBoxOffice());
+				movieDetails2.setFirstWeekBoxOffice(movieDetails.getFirstWeekBoxOffice());
+				movieDetails2.setFirstWeekendBoxOffice(movieDetails.getFirstWeekendBoxOffice());
+				movieDetails2.setRealtimeBoxOffice(movieDetails.getRealtimeBoxOffice());
+				// 设置平均分 细心
 				String avgScore = movieScoreService.getAvgScore(mid);
-				movieDetails.setAvgScore(avgScore);
-				movieDetailsDao.save(movieDetails);
+				movieDetails2.setAvgScore(avgScore);
+				movieDetailsDao.save(movieDetails2);
 				System.out.println("成功更新电影信息:" + movieDetails.getName());
 			}
 		}
@@ -81,16 +79,14 @@ public class SpiderScheduleService {
 	 * @param midList
 	 */
 	public void saveHistoryBoxOffice() {
+		
 		List<String> midList = cboooService.getMidList();
 		// 获取排行榜的电影
 		for (String mid : midList) {
-
 			// 获得该电影每一天数据
 			HistoryBoxOffice historyBoxOffice = cboooService.historyBoxOffice(mid);
-
 			// 判断是否存在此mid的数据
 			List<EveryDayBoxOffice> erveryDayBoxOfficeList = everyDayBoxOfficeDao.findByMid(mid);
-
 			// 没mid,保存每一天数据
 			if (everyDayBoxOfficeDao.findByMid(mid) == null || erveryDayBoxOfficeList.size() == 0) {
 				List<EveryDayBoxOffice> ereryDayBoxOfficeList = historyBoxOffice.getData1();
@@ -108,6 +104,5 @@ public class SpiderScheduleService {
 				System.out.println("更新mid为"+mid+"电影,"+everyDayBoxOffice.getInsertDate()+"号数据");
 			}
 		}
-		System.out.println(222);
 	}
 }

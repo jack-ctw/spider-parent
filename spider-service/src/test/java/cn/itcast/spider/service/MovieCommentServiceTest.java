@@ -10,6 +10,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import cn.itcast.spider.entity.MovieComment;
 import cn.itcast.spider.entity.MovieDetails;
+import cn.itcast.spider.info.UserException;
 
 @RunWith(SpringJUnit4ClassRunner.class) 
 @ContextConfiguration({"classpath:/spring/applicationContext.xml"})
@@ -20,6 +21,7 @@ public class MovieCommentServiceTest {
 	
 	@Test
 	public void insertMovieCommentTest(){
+		
 		MovieComment movieComment = new MovieComment();
 		movieComment.setId((long) 1);
 		movieComment.setMid("644896");
@@ -29,13 +31,15 @@ public class MovieCommentServiceTest {
 	}
 	
 	@Test
-	public void queryMovieDetailsByUserCodetes(){
+	public void queryMovieDetailsByUserCodetes() throws UserException{
+		
 		List<MovieDetails> movieDetailsList = movieCommentService.queryMovieDetailsByUserCode("test");
 		System.out.println(movieDetailsList.size());
 	}
 	
 	@Test
-	public void QueryCommentsByMidTest(){
+	public void QueryCommentsByMidTest() throws UserException{
+		
 		List<MovieComment> commentsList = movieCommentService.QueryCommentsByMid("641515");
 		System.out.println(commentsList.size());
 	}

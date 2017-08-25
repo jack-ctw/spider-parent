@@ -35,6 +35,7 @@ public class SpiderController {
 	@RequestMapping("/movieDetails/{mid}")
 	@ResponseBody
 	public MovieDetails movieDetails(@PathVariable(value = "mid") String mid) {
+		
 		MovieDetails movieDetails = movieDetailsDao.findByMid(mid).get(0);
 		return movieDetails;
 	}
@@ -49,6 +50,7 @@ public class SpiderController {
 	@RequestMapping("/everyDayBoxOfficeList/{mid}")
 	@ResponseBody
 	public List<EveryDayBoxOffice> everyDayBoxOfficeList(@PathVariable(value = "mid") String mid) {
+		
 		List<EveryDayBoxOffice> everyDayBoxOfficeList = ereryDayBoxOfficeDao.findByMid(mid);
 		return everyDayBoxOfficeList;
 	}
@@ -61,6 +63,7 @@ public class SpiderController {
 	@RequestMapping("/realtimeRank")
 	@ResponseBody
 	public RealtimeRank realtimeRank() {
+		
 		RealtimeRank realtimeRank = cboooSpiderService.realtimeRank();
 		return realtimeRank;
 	}

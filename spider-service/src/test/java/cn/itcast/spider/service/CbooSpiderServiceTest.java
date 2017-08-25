@@ -33,6 +33,7 @@ public class CbooSpiderServiceTest {
 	 */
 	@Test
 	public void movieDetailsTest(){
+		
 		MovieDetails movieDetails = spiderService.movieDetails("641515");
 		System.out.println(movieDetails);
 	}
@@ -42,6 +43,7 @@ public class CbooSpiderServiceTest {
 	 */
 	@Test 
 	public void historyBoxOfficeTest(){
+		
 		HistoryBoxOffice historyBoxOffice = spiderService.historyBoxOffice("641515");
 		System.out.println(historyBoxOffice.getData1());
 	}
@@ -50,6 +52,7 @@ public class CbooSpiderServiceTest {
 	 */
 	@Test
 	public void realtimeRankTest(){
+		
 		RealtimeRank realtimeRank = spiderService.realtimeRank();
 		System.out.println(realtimeRank.getRealtimeAmountBoxOffice());
 		List<RealtimeBoxOffice> list = realtimeRank.getAllRealtimeBoxOffice();
@@ -65,6 +68,7 @@ public class CbooSpiderServiceTest {
 	 */
 	@Test
 	public void createTableByAPI(){
+		
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("JPATest");
 		EntityManager em = emf.createEntityManager();
 		em.getTransaction().begin();
@@ -78,6 +82,7 @@ public class CbooSpiderServiceTest {
 	 */
 	@Test
 	public void GetMidListTest(){
+		
 		List<String> midList = spiderService.getMidList();
 		for (String string : midList) {
 			System.out.println(string);

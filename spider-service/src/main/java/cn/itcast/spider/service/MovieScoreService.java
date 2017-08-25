@@ -11,6 +11,7 @@ import cn.itcast.spider.dao.MovieDetailsDao;
 import cn.itcast.spider.dao.MovieScoreDao;
 import cn.itcast.spider.entity.MovieDetails;
 import cn.itcast.spider.entity.MovieScore;
+import cn.itcast.spider.info.UserException;
 
 /**
  * 电影评分模块
@@ -28,17 +29,24 @@ public class MovieScoreService {
 
 	/**
 	 * 插入评分
+	 * @throws UserException 
 	 * 
 	 */
-	public void insertMovieScore(MovieScore movieScore) {
-		// 判断是否已评分
-		String mid = movieScore.getMid();
-		String userCode = movieScore.getUserCode();
-		List<MovieScore> existMovieScoreList = movieScoreDao.findByMidAndUserCode(mid, userCode);
-		if (existMovieScoreList == null || existMovieScoreList.size() == 0) {
-			movieScoreDao.save(movieScore);
-		} else {
-			System.out.println("只能进行一次评分");
+	public void insertMovieScore(MovieScore movieScore) throws UserException {
+
+		// 非空判断
+		if (movieScore != null && movieScore.getUserCode() != null) {
+			// 判断是否已评分
+			String mid = movieScore.getMid();
+			String userCode = movieScore.getUserCode();
+			List<MovieScore> existMovieScoreList = movieScoreDao.findByMidAndUserCode(mid, userCode);
+			if (existMovieScoreList == null || existMovieScoreList.size() == 0) {
+				movieScoreDao.save(movieScore);
+			} else {
+				System.out.println("只能进行一次评分");
+			}
+		}else{
+			throw new UserException("登陆异常");
 		}
 	}
 
@@ -47,8 +55,9 @@ public class MovieScoreService {
 	 * 
 	 */
 	public String getAvgScore(String mid) {
-		List<MovieScore> movieScoreList = movieScoreDao.findByMid(mid);
+		// 总分
 		Integer countScore = 0;
+		List<MovieScore> movieScoreList = movieScoreDao.findByMid(mid);
 		for (MovieScore movieScore : movieScoreList) {
 			countScore += movieScore.getScore();
 		}
@@ -60,20 +69,28 @@ public class MovieScoreService {
 		} else {
 			return "未评分";
 		}
+
 	}
 
 	/**
 	 * 查看用户的已评分的所有电影 TODO : 返回值是否是一个电影信息??
+	 * @throws UserException 
 	 */
-	public List<MovieDetails> selectMovieDetailsByUserCode(String userCode) {
-		// 创建集合用来保存电影信息
+	public List<MovieDetails> selectMovieDetailsByUserCode(String userCode) throws UserException {
+
 		List<MovieDetails> movieDetailsList = new ArrayList<>();
-		List<MovieScore> MovieScoreList = movieScoreDao.findByUserCode(userCode);
-		for (MovieScore movieScore : MovieScoreList) {
-			String mid = movieScore.getMid();
-			MovieDetails movieDetails = movieDetailsDao.findByMid(mid).get(0);
-			movieDetailsList.add(movieDetails);
+		// 非空校验
+		if (userCode != null) {
+			List<MovieScore> MovieScoreList = movieScoreDao.findByUserCode(userCode);
+			for (MovieScore movieScore : MovieScoreList) {
+				String mid = movieScore.getMid();
+				MovieDetails movieDetails = movieDetailsDao.findByMid(mid).get(0);
+				movieDetailsList.add(movieDetails);
+			}
+		} else{
+			throw new UserException("登陆异常");
 		}
+
 		return movieDetailsList;
 	}
 

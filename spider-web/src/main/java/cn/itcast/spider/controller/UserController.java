@@ -6,7 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import cn.itcast.spider.entity.User;
-import cn.itcast.spider.info.MyException;
+import cn.itcast.spider.info.UserException;
 import cn.itcast.spider.service.UserService;
 
 @Controller
@@ -18,11 +18,12 @@ public class UserController {
 	/**
 	 * 注册成功跳转到登录页面
 	 * @param user
-	 * @throws MyException 
+	 * @throws UserException 
 	 * 
 	 */
 	@RequestMapping("/registered")
-	public String registered(User user) throws MyException{
+	public String registered(User user) throws UserException{
+		
 		userService.registered(user);
 		return "login";
 	}
@@ -31,12 +32,14 @@ public class UserController {
 	 * 登录成功跳转到首页
 	 * @param user
 	 * @return
-	 * @throws MyException 
+	 * @throws UserException 
 	 */
 	@RequestMapping("/login")
-	public String login(User user,Model model) throws MyException{
+	public String login(User user,Model model) throws UserException{
+		
 		User Exituser = userService.login(user);
-		model.addAttribute(Exituser.getUserName());
+		// 将查询的user传给页面
+		model.addAttribute(Exituser);
 		return "index";
 	}
 	

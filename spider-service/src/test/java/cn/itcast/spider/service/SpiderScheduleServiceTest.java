@@ -18,6 +18,7 @@ public class SpiderScheduleServiceTest {
 	 */
 	@Test
 	public void saveRankMovieDetailsTest(){
+		
 		scheduleService.saveRankMovieDetails();
 	}
 }
