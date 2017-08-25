@@ -41,7 +41,17 @@ public class MovieDetails implements Serializable {
 	private String firstWeekBoxOffice;
 	// 首周末票房
 	private String firstWeekendBoxOffice;
+	// 平均分
+	private String avgScore;
 	
+	public String getAvgScore() {
+		return avgScore;
+	}
+
+	public void setAvgScore(String avgScore) {
+		this.avgScore = avgScore;
+	}
+
 	public Long getId() {
 		return id;
 	}

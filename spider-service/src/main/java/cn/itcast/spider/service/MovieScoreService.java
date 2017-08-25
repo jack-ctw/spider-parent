@@ -1,12 +1,13 @@
 package cn.itcast.spider.service;
 
 import java.text.DecimalFormat;
-import java.util.Iterator;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import cn.itcast.spider.dao.MovieDetailsDao;
 import cn.itcast.spider.dao.MovieScoreDao;
 import cn.itcast.spider.entity.MovieDetails;
 import cn.itcast.spider.entity.MovieScore;
@@ -22,6 +23,8 @@ public class MovieScoreService {
 
 	@Autowired
 	private MovieScoreDao movieScoreDao;
+	@Autowired
+	private MovieDetailsDao movieDetailsDao;
 
 	/**
 	 * 插入评分
@@ -49,15 +52,32 @@ public class MovieScoreService {
 		for (MovieScore movieScore : movieScoreList) {
 			countScore += movieScore.getScore();
 		}
-		Double tempAvgScore = (double) (countScore / (movieScoreList.size()));
-		DecimalFormat df = new DecimalFormat("0.0");
-		String avgScore = df.format(tempAvgScore);
-		return avgScore;
+		if (countScore != 0) {
+			Double tempAvgScore = (double) (countScore / (movieScoreList.size()));
+			DecimalFormat df = new DecimalFormat("0.00");
+			String avgScore = df.format(tempAvgScore);
+			return avgScore;
+		} else {
+			return "未评分";
+		}
 	}
-	
+
 	/**
 	 * 查看用户的已评分的所有电影
 	 * 
 	 */
-	
+	public List<MovieDetails> selectMovieDetailsByUserCode(String userCode) {
+		// 创建集合用来保存电影信息
+		List<MovieDetails> movieDetailsList = new ArrayList<>();
+		List<MovieScore> MovieScoreList = movieScoreDao.findByUserCode(userCode);
+		for (MovieScore movieScore : MovieScoreList) {
+			String mid = movieScore.getMid();
+			if (mid != null) {
+				MovieDetails movieDetails = movieDetailsDao.findByMid(mid).get(0);
+				movieDetailsList.add(movieDetails);
+			}
+		}
+		return movieDetailsList;
+	}
+
 }

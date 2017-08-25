@@ -29,6 +29,8 @@ public class SpiderScheduleService {
 	private EveryDayBoxOfficeDao everyDayBoxOfficeDao;
 	@Autowired
 	private CboooSpiderService cboooService;
+	@Autowired
+	private MovieScoreService movieScoreService;
 
 	/**
 	 * 测试Quartz
@@ -42,7 +44,6 @@ public class SpiderScheduleService {
 	 * 
 	 * @param midList
 	 */
-	@Transactional
 	public void saveRankMovieDetails() {
 		List<String> midList = cboooService.getMidList();
 		for (String mid : midList) {
@@ -52,6 +53,8 @@ public class SpiderScheduleService {
 			// 如果不存在这个电影
 			if (movieDetailsList == null || movieDetailsList.size() == 0) {
 				movieDetails.setMid(mid);
+				String avgScore = movieScoreService.getAvgScore(mid);
+				movieDetails.setAvgScore(avgScore);
 				movieDetailsDao.save(movieDetails);
 				System.out.println("成功添加电影信息:" + movieDetails.getName());
 			} else {
@@ -61,10 +64,14 @@ public class SpiderScheduleService {
 				Long id = movieDetailsList.get(0).getId();
 				movieDetails.setId(id);
 				movieDetails.setMid(exitMid);
+				// 设置平均分
+				String avgScore = movieScoreService.getAvgScore(mid);
+				movieDetails.setAvgScore(avgScore);
 				movieDetailsDao.save(movieDetails);
 				System.out.println("成功更新电影信息:" + movieDetails.getName());
 			}
 		}
+		
 
 	}
 
@@ -100,7 +107,7 @@ public class SpiderScheduleService {
 				everyDayBoxOfficeDao.save(everyDayBoxOffice);
 				System.out.println("更新mid为"+mid+"电影,"+everyDayBoxOffice.getInsertDate()+"号数据");
 			}
-			
 		}
+		System.out.println(222);
 	}
 }

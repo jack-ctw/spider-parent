@@ -1,5 +1,7 @@
 package cn.itcast.spider.entity;
 
+import java.io.Serializable;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -8,7 +10,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "MovieScore")
-public class MovieScore {
+public class MovieScore implements Serializable{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

@@ -46,19 +46,15 @@
 	<!-- 3) 配置任务执行触发器，注入任务明细、注入任务执行表达式 -->
 	<bean id="trigger_1"
 		class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
-		<!-- 3.1 注入任务明细 -->
 		<property name="jobDetail" ref="MovieDetail"></property>
-		<!-- 3.2注入任务表达式 (每小时执行一次) -->
-		<property name="cronExpression" value="0 0 * * * ?"></property>
+		<property name="cronExpression" value="0/10 * * * * ?"></property>
 	</bean> 
 	<bean id="trigger_2"
 		class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
-		<!-- 3.1 注入任务明细 -->
 		<property name="jobDetail" ref="HistoryBoxOffice"></property>
-		<!-- 3.2注入任务表达式 (每天8点执行一次) -->
-		<property name="cronExpression" value="0 0 8 * * ?"></property>
+		<property name="cronExpression" value="0/10 * * * * ?"></property>
 	</bean>
-	<!-- <bean id="trigger_3"
+<!-- 	<bean id="trigger_3"
 		class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
 		3.1 注入任务明细
 		<property name="jobDetail" ref="quartzTest"></property>
