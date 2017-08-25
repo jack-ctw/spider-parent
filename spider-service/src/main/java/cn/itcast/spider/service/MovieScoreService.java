@@ -63,8 +63,7 @@ public class MovieScoreService {
 	}
 
 	/**
-	 * 查看用户的已评分的所有电影
-	 * 
+	 * 查看用户的已评分的所有电影 TODO : 返回值是否是一个电影信息??
 	 */
 	public List<MovieDetails> selectMovieDetailsByUserCode(String userCode) {
 		// 创建集合用来保存电影信息
@@ -72,10 +71,8 @@ public class MovieScoreService {
 		List<MovieScore> MovieScoreList = movieScoreDao.findByUserCode(userCode);
 		for (MovieScore movieScore : MovieScoreList) {
 			String mid = movieScore.getMid();
-			if (mid != null) {
-				MovieDetails movieDetails = movieDetailsDao.findByMid(mid).get(0);
-				movieDetailsList.add(movieDetails);
-			}
+			MovieDetails movieDetails = movieDetailsDao.findByMid(mid).get(0);
+			movieDetailsList.add(movieDetails);
 		}
 		return movieDetailsList;
 	}

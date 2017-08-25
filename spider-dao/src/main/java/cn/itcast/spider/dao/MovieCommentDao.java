@@ -15,5 +15,5 @@ public interface MovieCommentDao extends JpaRepository<MovieComment, String>{
 	/**
 	 *	根据mid 和 userCode 查询
 	 */
-	List<MovieComment> findByMidAndUserCode(String mid,String userCode);
+	List<MovieComment> findByMid(String mid);
 }
