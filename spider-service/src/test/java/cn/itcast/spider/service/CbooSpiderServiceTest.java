@@ -15,7 +15,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import cn.itcast.spider.dto.HistoryBoxOffice;
 import cn.itcast.spider.dto.RealtimeBoxOffice;
 import cn.itcast.spider.dto.RealtimeRank;
+import cn.itcast.spider.entity.MovieComment;
 import cn.itcast.spider.entity.MovieDetails;
+import cn.itcast.spider.entity.MovieScore;
 import cn.itcast.spider.entity.User;
 
 @RunWith(SpringJUnit4ClassRunner.class) 
@@ -66,7 +68,7 @@ public class CbooSpiderServiceTest {
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("JPATest");
 		EntityManager em = emf.createEntityManager();
 		em.getTransaction().begin();
-		em.persist(new User().setSex("1234"));
+		em.persist(new MovieScore().setScore(90));
 		em.getTransaction().commit();
 		emf.close();
 	}

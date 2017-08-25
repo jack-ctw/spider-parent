@@ -27,7 +27,11 @@ import cn.itcast.spider.dto.HistoryBoxOffice;
 import cn.itcast.spider.dto.RealtimeRank;
 import cn.itcast.spider.entity.MovieDetails;
 import cn.itcast.spider.dto.RealtimeBoxOffice;
-
+/**
+ * 爬虫模块
+ * @author jack
+ *
+ */
 @Service
 public class CboooSpiderService {
 	/**

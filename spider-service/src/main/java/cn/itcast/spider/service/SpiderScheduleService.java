@@ -14,7 +14,11 @@ import cn.itcast.spider.dao.MovieDetailsDao;
 import cn.itcast.spider.dto.HistoryBoxOffice;
 import cn.itcast.spider.entity.EveryDayBoxOffice;
 import cn.itcast.spider.entity.MovieDetails;
-
+/**
+ * 定时调度模块
+ * @author jack
+ *
+ */
 //组件
 @Component
 public class SpiderScheduleService {
