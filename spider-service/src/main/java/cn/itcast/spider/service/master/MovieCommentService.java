@@ -1,4 +1,4 @@
-package cn.itcast.spider.service;
+package cn.itcast.spider.service.master;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,12 +6,13 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import cn.itcast.spider.dao.MovieCommentDao;
-import cn.itcast.spider.dao.MovieDetailsDao;
+import cn.itcast.spider.dao.jpa.MovieCommentDao;
+import cn.itcast.spider.dao.jpa.MovieDetailsDao;
 import cn.itcast.spider.entity.MovieComment;
 import cn.itcast.spider.entity.MovieDetails;
-import cn.itcast.spider.entity.MovieScore;
 import cn.itcast.spider.info.UserException;
+
+
 
 /**
  * 电影评论模块

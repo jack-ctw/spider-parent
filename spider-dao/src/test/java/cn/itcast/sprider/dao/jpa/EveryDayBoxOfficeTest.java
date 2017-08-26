@@ -1,4 +1,4 @@
-package cn.itcast.sprider.dao;
+package cn.itcast.sprider.dao.jpa;
 
 
 public class EveryDayBoxOfficeTest {

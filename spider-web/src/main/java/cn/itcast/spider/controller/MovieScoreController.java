@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import cn.itcast.spider.entity.MovieDetails;
 import cn.itcast.spider.entity.MovieScore;
 import cn.itcast.spider.info.UserException;
-import cn.itcast.spider.service.MovieScoreService;
+import cn.itcast.spider.service.master.MovieScoreService;
 
 @Controller
 public class MovieScoreController {

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import cn.itcast.spider.entity.MovieComment;
 import cn.itcast.spider.entity.MovieDetails;
 import cn.itcast.spider.info.UserException;
-import cn.itcast.spider.service.MovieCommentService;
+import cn.itcast.spider.service.master.MovieCommentService;
 
 @Controller
 public class MovieCommentController {

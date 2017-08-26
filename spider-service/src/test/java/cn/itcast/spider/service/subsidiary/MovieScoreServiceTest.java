@@ -1,4 +1,4 @@
-package cn.itcast.spider.service;
+package cn.itcast.spider.service.subsidiary;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -8,6 +8,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import cn.itcast.spider.entity.MovieScore;
 import cn.itcast.spider.info.UserException;
+import cn.itcast.spider.service.master.MovieScoreService;
 
 @RunWith(SpringJUnit4ClassRunner.class) 
 @ContextConfiguration({"classpath:/spring/applicationContext.xml"})

@@ -1,4 +1,4 @@
-package cn.itcast.spider.service;
+package cn.itcast.spider.service.master;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -7,8 +7,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import cn.itcast.spider.dao.MovieDetailsDao;
-import cn.itcast.spider.dao.MovieScoreDao;
+import cn.itcast.spider.dao.jpa.MovieDetailsDao;
+import cn.itcast.spider.dao.jpa.MovieScoreDao;
 import cn.itcast.spider.entity.MovieDetails;
 import cn.itcast.spider.entity.MovieScore;
 import cn.itcast.spider.info.UserException;

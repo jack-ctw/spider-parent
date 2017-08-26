@@ -1,4 +1,4 @@
-package cn.itcast.spider.dao;
+package cn.itcast.spider.dao.jpa;
 
 import java.util.List;
 

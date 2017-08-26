@@ -7,13 +7,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import cn.itcast.spider.entity.User;
 import cn.itcast.spider.info.UserException;
-import cn.itcast.spider.service.UserService;
+import cn.itcast.spider.service.master.UserWriterService;
+import cn.itcast.spider.service.subsidiary.UserReadService;
 
 @Controller
 public class UserController {
 	
 	@Autowired
-	private UserService userService;
+	private UserWriterService userWriterService;
+	@Autowired
+	private UserReadService userReadService;
 	
 	/**
 	 * 注册成功跳转到登录页面
@@ -24,7 +27,7 @@ public class UserController {
 	@RequestMapping("/registered")
 	public String registered(User user) throws UserException{
 		
-		userService.registered(user);
+		userWriterService.registered(user);
 		return "login";
 	}
 	
@@ -37,7 +40,7 @@ public class UserController {
 	@RequestMapping("/login")
 	public String login(User user,Model model) throws UserException{
 		
-		User Exituser = userService.login(user);
+		User Exituser = userReadService.login(user);
 		// 将查询的user传给页面
 		model.addAttribute(Exituser);
 		return "index";

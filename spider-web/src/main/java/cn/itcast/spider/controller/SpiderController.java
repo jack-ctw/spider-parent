@@ -8,13 +8,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import cn.itcast.spider.dao.EveryDayBoxOfficeDao;
-import cn.itcast.spider.dao.MovieDetailsDao;
-import cn.itcast.spider.dto.HistoryBoxOffice;
+import cn.itcast.spider.dao.jpa.EveryDayBoxOfficeDao;
+import cn.itcast.spider.dao.jpa.MovieDetailsDao;
 import cn.itcast.spider.dto.RealtimeRank;
 import cn.itcast.spider.entity.EveryDayBoxOffice;
 import cn.itcast.spider.entity.MovieDetails;
-import cn.itcast.spider.service.CboooSpiderService;
+import cn.itcast.spider.service.master.CboooSpiderService;
 
 @Controller
 public class SpiderController {

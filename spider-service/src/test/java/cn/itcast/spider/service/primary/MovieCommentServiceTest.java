@@ -1,4 +1,4 @@
-package cn.itcast.spider.service;
+package cn.itcast.spider.service.primary;
 
 import java.util.List;
 
@@ -11,6 +11,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import cn.itcast.spider.entity.MovieComment;
 import cn.itcast.spider.entity.MovieDetails;
 import cn.itcast.spider.info.UserException;
+import cn.itcast.spider.service.master.MovieCommentService;
 
 @RunWith(SpringJUnit4ClassRunner.class) 
 @ContextConfiguration({"classpath:/spring/applicationContext.xml"})

@@ -1,16 +1,12 @@
-package cn.itcast.spider.service;
+package cn.itcast.spider.service.master;
 
 import java.util.List;
 
-import javax.annotation.Resource;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import cn.itcast.spider.dao.EveryDayBoxOfficeDao;
-import cn.itcast.spider.dao.MovieDetailsDao;
+import cn.itcast.spider.dao.jpa.EveryDayBoxOfficeDao;
+import cn.itcast.spider.dao.jpa.MovieDetailsDao;
 import cn.itcast.spider.dto.HistoryBoxOffice;
 import cn.itcast.spider.entity.EveryDayBoxOffice;
 import cn.itcast.spider.entity.MovieDetails;
