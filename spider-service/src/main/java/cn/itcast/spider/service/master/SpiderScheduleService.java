@@ -4,12 +4,14 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import cn.itcast.spider.dao.jpa.EveryDayBoxOfficeDao;
 import cn.itcast.spider.dao.jpa.MovieDetailsDao;
 import cn.itcast.spider.dto.HistoryBoxOffice;
 import cn.itcast.spider.entity.EveryDayBoxOffice;
 import cn.itcast.spider.entity.MovieDetails;
+import cn.itcast.spider.service.subsidiary.MovieScoreReadService;
 /**
  * 定时调度模块
  * @author jack
@@ -26,14 +28,14 @@ public class SpiderScheduleService {
 	@Autowired
 	private CboooSpiderService cboooService;
 	@Autowired
-	private MovieScoreService movieScoreService;
+	private MovieScoreReadService movieScoreReadService;
 
 	/**
 	 * 持久化电影信息
 	 * 
 	 * @param midList
 	 */
-	
+	@Transactional
 	public void saveRankMovieDetails() {
 		
 		List<String> midList = cboooService.getMidList();
@@ -44,7 +46,7 @@ public class SpiderScheduleService {
 			// 如果不存在这个电影
 			if (movieDetailsList == null || movieDetailsList.size() == 0) {
 				movieDetails.setMid(mid);
-				String avgScore = movieScoreService.getAvgScore(mid);
+				String avgScore = movieScoreReadService.getAvgScore(mid);
 				movieDetails.setAvgScore(avgScore);
 				movieDetailsDao.save(movieDetails);
 				System.out.println("成功添加电影信息:" + movieDetails.getName());
@@ -59,7 +61,7 @@ public class SpiderScheduleService {
 				movieDetails2.setFirstWeekendBoxOffice(movieDetails.getFirstWeekendBoxOffice());
 				movieDetails2.setRealtimeBoxOffice(movieDetails.getRealtimeBoxOffice());
 				// 设置平均分 细心
-				String avgScore = movieScoreService.getAvgScore(mid);
+				String avgScore = movieScoreReadService.getAvgScore(mid);
 				movieDetails2.setAvgScore(avgScore);
 				movieDetailsDao.save(movieDetails2);
 				System.out.println("成功更新电影信息:" + movieDetails.getName());

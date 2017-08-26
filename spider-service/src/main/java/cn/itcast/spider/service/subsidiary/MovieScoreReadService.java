@@ -1,4 +1,4 @@
-package cn.itcast.spider.service.master;
+package cn.itcast.spider.service.subsidiary;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -7,8 +7,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import cn.itcast.spider.dao.jpa.MovieDetailsDao;
-import cn.itcast.spider.dao.jpa.MovieScoreDao;
+import cn.itcast.spider.dao.mapper.MovieDetailsMapper;
+import cn.itcast.spider.dao.mapper.MovieScoreMapper;
 import cn.itcast.spider.entity.MovieDetails;
 import cn.itcast.spider.entity.MovieScore;
 import cn.itcast.spider.info.UserException;
@@ -20,35 +20,12 @@ import cn.itcast.spider.info.UserException;
  *
  */
 @Service
-public class MovieScoreService {
+public class MovieScoreReadService {
 
 	@Autowired
-	private MovieScoreDao movieScoreDao;
+	private MovieScoreMapper movieScoreMapper;
 	@Autowired
-	private MovieDetailsDao movieDetailsDao;
-
-	/**
-	 * 插入评分
-	 * @throws UserException 
-	 * 
-	 */
-	public void insertMovieScore(MovieScore movieScore) throws UserException {
-
-		// 非空判断
-		if (movieScore != null && movieScore.getUserCode() != null) {
-			// 判断是否已评分
-			String mid = movieScore.getMid();
-			String userCode = movieScore.getUserCode();
-			List<MovieScore> existMovieScoreList = movieScoreDao.findByMidAndUserCode(mid, userCode);
-			if (existMovieScoreList == null || existMovieScoreList.size() == 0) {
-				movieScoreDao.save(movieScore);
-			} else {
-				System.out.println("只能进行一次评分");
-			}
-		}else{
-			throw new UserException("登陆异常");
-		}
-	}
+	private MovieDetailsMapper movieDetailsMapper;
 
 	/**
 	 * 电影平均得分
@@ -57,7 +34,7 @@ public class MovieScoreService {
 	public String getAvgScore(String mid) {
 		// 总分
 		Integer countScore = 0;
-		List<MovieScore> movieScoreList = movieScoreDao.findByMid(mid);
+		List<MovieScore> movieScoreList = movieScoreMapper.queryMovieScoreByMid(mid);
 		for (MovieScore movieScore : movieScoreList) {
 			countScore += movieScore.getScore();
 		}
@@ -73,7 +50,7 @@ public class MovieScoreService {
 	}
 
 	/**
-	 * 查看用户的已评分的所有电影 TODO : 返回值是否是一个电影信息??
+	 * 查看用户的已评分的所有电影
 	 * @throws UserException 
 	 */
 	public List<MovieDetails> selectMovieDetailsByUserCode(String userCode) throws UserException {
@@ -81,10 +58,10 @@ public class MovieScoreService {
 		List<MovieDetails> movieDetailsList = new ArrayList<>();
 		// 非空校验
 		if (userCode != null) {
-			List<MovieScore> MovieScoreList = movieScoreDao.findByUserCode(userCode);
+			List<MovieScore> MovieScoreList = movieScoreMapper.queryMovieScoreByUserCode(userCode);
 			for (MovieScore movieScore : MovieScoreList) {
 				String mid = movieScore.getMid();
-				MovieDetails movieDetails = movieDetailsDao.findByMid(mid).get(0);
+				MovieDetails movieDetails = movieDetailsMapper.queryMovieDetailsByMid(mid).get(0);
 				movieDetailsList.add(movieDetails);
 			}
 		} else{

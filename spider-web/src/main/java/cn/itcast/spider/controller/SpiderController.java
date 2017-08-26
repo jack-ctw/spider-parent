@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import cn.itcast.spider.dao.jpa.EveryDayBoxOfficeDao;
 import cn.itcast.spider.dao.jpa.MovieDetailsDao;
+import cn.itcast.spider.dao.mapper.EveryDayBoxOfficeMapper;
+import cn.itcast.spider.dao.mapper.MovieDetailsMapper;
 import cn.itcast.spider.dto.RealtimeRank;
 import cn.itcast.spider.entity.EveryDayBoxOffice;
 import cn.itcast.spider.entity.MovieDetails;
@@ -21,10 +23,10 @@ public class SpiderController {
 	@Autowired
 	private CboooSpiderService cboooSpiderService;
 	@Autowired
-	private EveryDayBoxOfficeDao ereryDayBoxOfficeDao;
+	private EveryDayBoxOfficeMapper everyDayBoxOfficeMapper;
 	@Autowired
-	private MovieDetailsDao movieDetailsDao;
-
+	private MovieDetailsMapper movieDetailsMapper;
+	
 	/**
 	 * 根据电影Id获取电影详细信息 url:http:127.0.0.1:8080/spider-web/movieDetails/641515
 	 * 
@@ -35,7 +37,7 @@ public class SpiderController {
 	@ResponseBody
 	public MovieDetails movieDetails(@PathVariable(value = "mid") String mid) {
 		
-		MovieDetails movieDetails = movieDetailsDao.findByMid(mid).get(0);
+		MovieDetails movieDetails = movieDetailsMapper.queryMovieDetailsByMid(mid).get(0);
 		return movieDetails;
 	}
 
@@ -50,7 +52,7 @@ public class SpiderController {
 	@ResponseBody
 	public List<EveryDayBoxOffice> everyDayBoxOfficeList(@PathVariable(value = "mid") String mid) {
 		
-		List<EveryDayBoxOffice> everyDayBoxOfficeList = ereryDayBoxOfficeDao.findByMid(mid);
+		List<EveryDayBoxOffice> everyDayBoxOfficeList = everyDayBoxOfficeMapper.queryEveryDayBoxOfficByMid(mid);
 		return everyDayBoxOfficeList;
 	}
 

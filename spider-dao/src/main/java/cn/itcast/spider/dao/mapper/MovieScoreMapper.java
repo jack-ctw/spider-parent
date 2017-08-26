@@ -2,8 +2,6 @@ package cn.itcast.spider.dao.mapper;
 
 import java.util.List;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-
 import cn.itcast.spider.entity.MovieScore;
 
 public interface MovieScoreMapper{

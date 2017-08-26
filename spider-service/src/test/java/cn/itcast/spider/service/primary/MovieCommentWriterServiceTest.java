@@ -11,15 +11,18 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import cn.itcast.spider.entity.MovieComment;
 import cn.itcast.spider.entity.MovieDetails;
 import cn.itcast.spider.info.UserException;
-import cn.itcast.spider.service.master.MovieCommentService;
+import cn.itcast.spider.service.master.MovieCommentWriterService;
 
 @RunWith(SpringJUnit4ClassRunner.class) 
 @ContextConfiguration({"classpath:/spring/applicationContext.xml"})
-public class MovieCommentServiceTest {
+public class MovieCommentWriterServiceTest {
 	
 	@Autowired
-	private MovieCommentService movieCommentService;
+	private MovieCommentWriterService movieCommentService;
 	
+	/**
+	 * 测试新增一条评论
+	 */
 	@Test
 	public void insertMovieCommentTest(){
 		
@@ -30,18 +33,5 @@ public class MovieCommentServiceTest {
 		movieComment.setComment("java is good");
 		movieCommentService.insertMovieComment(movieComment);
 	}
-	
-	@Test
-	public void queryMovieDetailsByUserCodetes() throws UserException{
-		
-		List<MovieDetails> movieDetailsList = movieCommentService.queryMovieDetailsByUserCode("test");
-		System.out.println(movieDetailsList.size());
-	}
-	
-	@Test
-	public void QueryCommentsByMidTest() throws UserException{
-		
-		List<MovieComment> commentsList = movieCommentService.QueryCommentsByMid("641515");
-		System.out.println(commentsList.size());
-	}
+
 }

@@ -8,14 +8,14 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import cn.itcast.spider.entity.MovieScore;
 import cn.itcast.spider.info.UserException;
-import cn.itcast.spider.service.master.MovieScoreService;
+import cn.itcast.spider.service.master.MovieScoreWriterService;
 
 @RunWith(SpringJUnit4ClassRunner.class) 
 @ContextConfiguration({"classpath:/spring/applicationContext.xml"})
 public class MovieScoreServiceTest {
 
 	@Autowired
-	private MovieScoreService movieScoreService;
+	private MovieScoreWriterService movieScoreService;
 	
 	/**
 	 * 测试评分
@@ -31,14 +31,5 @@ public class MovieScoreServiceTest {
 		movieScore.setUserCode("jack");
 		movieScoreService.insertMovieScore(movieScore);
 	}
-	
-	/**
-	 * 测试统计平均分
-	 */
-	@Test
-	public void getAvgScoreTest(){
-		
-		String avgScore = movieScoreService.getAvgScore("641515");
-		System.out.println(avgScore);
-	}
+
 }

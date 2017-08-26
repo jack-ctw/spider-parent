@@ -6,22 +6,28 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import cn.itcast.spider.service.master.SpiderScheduleService;
-
+import cn.itcast.spider.entity.User;
+import cn.itcast.spider.info.UserException;
 
 @RunWith(SpringJUnit4ClassRunner.class) 
 @ContextConfiguration({"classpath:/spring/applicationContext.xml"})
-public class SpiderScheduleServiceTest {
+public class UserReadServiceTest {
+	
 
 	@Autowired
-	private SpiderScheduleService scheduleService;
+	private UserReadService userQueryService;
 	
-	/**
-	 *	测试添加avgScore的调度任务 
-	 */
+	
 	@Test
-	public void saveRankMovieDetailsTest(){
-		
-		scheduleService.saveRankMovieDetails();
+	public void loginTest() throws UserException{
+		User user = new User();
+		user.setUserCode("test");
+		user.setPassWord("test");
+		User user2 = userQueryService.login(user);
+		System.out.println(user2.getUserCode());
 	}
+	
+
+	
+
 }

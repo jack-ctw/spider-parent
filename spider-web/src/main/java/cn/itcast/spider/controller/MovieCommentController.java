@@ -10,13 +10,17 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import cn.itcast.spider.entity.MovieComment;
 import cn.itcast.spider.entity.MovieDetails;
 import cn.itcast.spider.info.UserException;
-import cn.itcast.spider.service.master.MovieCommentService;
+import cn.itcast.spider.service.master.MovieCommentWriterService;
+import cn.itcast.spider.service.subsidiary.MovieCommentReadService;
 
 @Controller
 public class MovieCommentController {
 
 	@Autowired
-	private MovieCommentService commentService;
+	private MovieCommentWriterService movieCommentWriterService;
+	@Autowired
+	private MovieCommentReadService movieCommentReadService;
+	
 	
 	/**
 	 * 新增评论
@@ -26,7 +30,7 @@ public class MovieCommentController {
 	@RequestMapping("/insertMovieComment")
 	public String insertMovieComment(MovieComment movieComment){
 		
-		commentService.insertMovieComment(movieComment);
+		movieCommentWriterService.insertMovieComment(movieComment);
 		return null;
 	}
 	
@@ -40,7 +44,7 @@ public class MovieCommentController {
 	@ResponseBody
 	public List<MovieComment> QueryCommentsByMid(String mid) throws UserException{
 		
-		List<MovieComment> MoviecommentsList = commentService.QueryCommentsByMid(mid);
+		List<MovieComment> MoviecommentsList = movieCommentReadService.QueryCommentsByMid(mid);
 		return MoviecommentsList;
 	}
 	
@@ -54,7 +58,7 @@ public class MovieCommentController {
 	@ResponseBody
 	public List<MovieDetails> queryMovieDetailsByUserCode(String userCode) throws UserException{
 		
-		List<MovieDetails> movieDetailsList = commentService.queryMovieDetailsByUserCode(userCode);
+		List<MovieDetails> movieDetailsList = movieCommentReadService.queryMovieDetailsByUserCode(userCode);
 		return movieDetailsList;
 	}
 }

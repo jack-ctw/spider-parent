@@ -33,15 +33,6 @@
 		<property name="targetMethod" value="saveHistoryBoxOffice"></property>
 		<property name="concurrent" value="false"></property>
 	</bean>
-<!-- 	<bean id="quartzTest"
-		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
-		2.1 注入任务bean
-		<property name="targetObject" ref="spiderScheduleService"></property>
-		2.2 注入任务bean的方法 （定时执行的方法，就是JobTest类中的方法）
-		<property name="targetMethod" value="quartzTest"></property>
-		2.3 并发访问设置为false，表示按照访问顺序执行
-		<property name="concurrent" value="false"></property>
-	</bean> -->
 
 	<!-- 3) 配置任务执行触发器，注入任务明细、注入任务执行表达式 -->
 	<bean id="trigger_1"
@@ -58,13 +49,7 @@
 		<!-- 3.2注入任务表达式 (每天8点执行一次) -->
 		<property name="cronExpression" value="0 0 8 * * ?"></property>
 	</bean>
-	<!-- <bean id="trigger_3"
-		class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
-		3.1 注入任务明细
-		<property name="jobDetail" ref="quartzTest"></property>
-		3.2注入任务表达式 (每小时执行一次)
-		<property name="cronExpression" value="0/5 * * * * ?"></property>
-	</bean> -->
+
 
 	<!-- 4) 配置任务计划，注入任务触发器（多个） -->
 	<bean id="startQuartz"

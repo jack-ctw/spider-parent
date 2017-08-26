@@ -24,4 +24,10 @@ public class SpiderScheduleServiceTest {
 		
 		scheduleService.saveRankMovieDetails();
 	}
+	
+	@Test
+	public void saveHistoryBoxOfficeTest(){
+		
+		scheduleService.saveHistoryBoxOffice();
+	}
 }

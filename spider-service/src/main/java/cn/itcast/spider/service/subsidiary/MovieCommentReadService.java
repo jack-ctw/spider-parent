@@ -1,4 +1,4 @@
-package cn.itcast.spider.service.master;
+package cn.itcast.spider.service.subsidiary;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,14 +6,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import cn.itcast.spider.dao.jpa.MovieCommentDao;
-import cn.itcast.spider.dao.jpa.MovieDetailsDao;
+import cn.itcast.spider.dao.mapper.MovieCommentMapper;
+import cn.itcast.spider.dao.mapper.MovieDetailsMapper;
 import cn.itcast.spider.entity.MovieComment;
 import cn.itcast.spider.entity.MovieDetails;
 import cn.itcast.spider.info.UserException;
-
-
-
 /**
  * 电影评论模块
  * 
@@ -21,34 +18,25 @@ import cn.itcast.spider.info.UserException;
  *
  */
 @Service
-public class MovieCommentService {
+public class MovieCommentReadService {
 
 	@Autowired
-	private MovieCommentDao moiveCommentDao;
+	private MovieCommentMapper movieCommentMapper;
 	@Autowired
-	private MovieDetailsDao movieDetailsDao;
-
+	private MovieDetailsMapper movieDetailsMapper;
+	
 	/**
-	 * 增加评论
-	 * 
-	 */
-	public void insertMovieComment(MovieComment movieComment) {
-		moiveCommentDao.save(movieComment);
-	}
-
-	/**
-	 * 用户查询自己评论过的电影 TODO :名字和score的太像了
-	 * 
+	 * 用户查询自己评论过的电影 
 	 * @throws UserException
 	 */
 	public List<MovieDetails> queryMovieDetailsByUserCode(String userCode) throws UserException {
 		if (userCode != null) {
 			// 创建集合保存电影信息
 			List<MovieDetails> movieDetailsList = new ArrayList<>();
-			List<MovieComment> MoveCommentList = moiveCommentDao.findByUserCode(userCode);
+			List<MovieComment> MoveCommentList = movieCommentMapper.queryMovieCommentByUserCode(userCode);
 			for (MovieComment movieComment : MoveCommentList) {
 				String mid = movieComment.getMid();
-				MovieDetails movieDetails = movieDetailsDao.findByMid(mid).get(0);
+				MovieDetails movieDetails = movieDetailsMapper.queryMovieDetailsByMid(mid).get(0);
 				movieDetailsList.add(movieDetails);
 			}
 			return movieDetailsList;
@@ -59,13 +47,13 @@ public class MovieCommentService {
 	}
 
 	/**
-	 * 根据该电影的所有评论
+	 *	查询该电影的所有评论
 	 * @throws UserException 
 	 */
 	public List<MovieComment> QueryCommentsByMid(String mid) throws UserException {
 
 		if (mid != null) {
-			List<MovieComment> MovieCommentList = moiveCommentDao.findByMid(mid);
+			List<MovieComment> MovieCommentList = movieCommentMapper.queryMovieCommentByMid(mid);
 			return MovieCommentList;
 		}else{
 			throw new UserException("没有此电影");
