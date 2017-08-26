@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import cn.itcast.spider.dao.jpa.UserDao;
 import cn.itcast.spider.entity.User;
@@ -20,6 +21,7 @@ public class UserWriterService {
 	 * @return String
 	 * @throws UserException 
 	 */
+	@Transactional
 	public void registered(User user) throws UserException{
 		
 		String message ="";

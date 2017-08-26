@@ -19,23 +19,15 @@ public class UserServiceTest {
 	
 	@Autowired
 	private UserWriterService userService;
-	@Autowired
-	private UserMapper UserMapper;
 	
-	@Test
-	public void test(){
-		List<User> userList = UserMapper.queryUserByUserCode("test");
-		System.out.println(userList.size());
-	}
-	
+
 	@Test
 	public void registeredTest(){
 		
 		try {
 			User user = new User();
-			user.setId((long) 1);
-			user.setUserCode("test");
-			user.setPassWord("test");
+			user.setUserCode("test1");
+			user.setPassWord("test1");
 			userService.registered(user);
 		} catch (UserException e) {
 			System.out.println("注册失败");

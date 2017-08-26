@@ -63,12 +63,12 @@
 	</bean>
 
 	<!-- JPA事务管理器 -->
-	<bean id="transactionManager_JPA" class="org.springframework.orm.jpa.JpaTransactionManager">
+	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
 		<property name="entityManagerFactory" ref="entityManagerFactory"></property>
 	</bean>
 	<!-- 注解管理事务 -->
-	<tx:annotation-driven transaction-manager="transactionManager_JPA" />
-
+	<tx:annotation-driven transaction-manager="transactionManager" />
+											   
 	<!-- 扫描dao -->
 	<jpa:repositories base-package="cn.itcast.spider.dao.jpa" />
 	
@@ -102,23 +102,23 @@
 	<!-- =============================================TODO： 注解管理事务 和  aop方式管理事务的选择  ？     -->
 	
 	<!-- 配置事务管理器 -->
-	<bean id="transactionManager_mybatis"
+	<!-- <bean id="transactionManager_mybatis"
 		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-		<!-- 设置数据源 -->
+		设置数据源
 		<property name="dataSource" ref="dataSource_mybatis"/>
 	</bean>
 	
-	<!-- 配置通知 -->
+	配置通知
 	<tx:advice id="txAdvice" transaction-manager="transactionManager_mybatis">
 		<tx:attributes>
-			<!-- 配置需要事务的方法前缀 -->
+			配置需要事务的方法前缀
 			<tx:method name="add*" propagation="REQUIRED"/>
 			<tx:method name="save*" propagation="REQUIRED"/>
 			<tx:method name="insert*" propagation="REQUIRED"/>
 			<tx:method name="update*" propagation="REQUIRED"/>
 			<tx:method name="del*" propagation="REQUIRED"/>
 			
-			<!-- 配置不需要事务的方法前缀 -->
+			配置不需要事务的方法前缀
 			<tx:method name="query*" propagation="SUPPORTS" read-only="false"/>
 			<tx:method name="select*" propagation="SUPPORTS" read-only="false"/>
 			<tx:method name="get*" propagation="SUPPORTS" read-only="false"/>
@@ -126,11 +126,11 @@
 		</tx:attributes>
 	</tx:advice>
 	
-	<!-- 配置切面 -->
+	配置切面
 	<aop:config>
 		<aop:advisor advice-ref="txAdvice"
 			pointcut="execution(* cn.itcast.spider.service.subsidiary..*.*(..))"/>
 	</aop:config>
-	
+	 -->
 	
 </beans>

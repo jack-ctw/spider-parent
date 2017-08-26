@@ -76,6 +76,7 @@ public class SpiderScheduleService {
 	 * 
 	 * @param midList
 	 */
+	@Transactional
 	public void saveHistoryBoxOffice() {
 		
 		List<String> midList = cboooService.getMidList();

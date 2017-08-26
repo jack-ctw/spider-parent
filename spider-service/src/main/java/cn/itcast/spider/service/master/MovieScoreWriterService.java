@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import cn.itcast.spider.dao.jpa.MovieScoreDao;
 import cn.itcast.spider.entity.MovieScore;
@@ -26,6 +27,7 @@ public class MovieScoreWriterService {
 	 * @throws UserException 
 	 * 
 	 */
+	@Transactional
 	public void insertMovieScore(MovieScore movieScore) throws UserException {
 
 		// 非空判断
