@@ -43,4 +43,9 @@ public class QueryMovieServiceTest {
 		queryMovieService.queryMovieDetailsByMid("641515");
 	}
 	
+	@Test
+	public void everyDayBoxOfficeList(){
+		queryMovieService.everyDayBoxOfficeList("641515");
+	}
+	
 }

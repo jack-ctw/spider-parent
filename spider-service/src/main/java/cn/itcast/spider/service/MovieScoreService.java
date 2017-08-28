@@ -8,12 +8,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.alibaba.fastjson.JSON;
+
 import cn.itcast.spider.dao.jpa.MovieScoreDao;
 import cn.itcast.spider.dao.mapper.MovieDetailsMapper;
 import cn.itcast.spider.dao.mapper.MovieScoreMapper;
 import cn.itcast.spider.entity.MovieDetails;
 import cn.itcast.spider.entity.MovieScore;
 import cn.itcast.spider.info.UserException;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
 
 /**
  * 电影评分模块
@@ -30,10 +34,13 @@ public class MovieScoreService {
 	private MovieScoreMapper movieScoreMapper;
 	@Autowired
 	private MovieDetailsMapper movieDetailsMapper;
+	@Autowired
+	private JedisPool jedisPool;
 
 	/**
 	 * 插入评分
-	 * @throws UserException 
+	 * 
+	 * @throws UserException
 	 * 
 	 */
 	@Transactional
@@ -50,28 +57,31 @@ public class MovieScoreService {
 			} else {
 				System.out.println("只能进行一次评分");
 			}
-		}else{
+		} else {
 			throw new UserException("登陆异常");
 		}
 	}
-	
+
 	/**
-	 * 电影平均得分
+	 * 计算平均得分
 	 * 
 	 */
 	public String getAvgScore(String mid) {
-		// 总分
+
 		Integer countScore = 0;
+
 		List<MovieScore> movieScoreList = movieScoreMapper.queryMovieScoreByMid(mid);
 		for (MovieScore movieScore : movieScoreList) {
 			countScore += movieScore.getScore();
 		}
 		if (countScore != 0) {
+
 			Double tempAvgScore = (double) (countScore / (movieScoreList.size()));
 			DecimalFormat df = new DecimalFormat("0.00");
 			String avgScore = df.format(tempAvgScore);
 			return avgScore;
 		} else {
+
 			return "未评分";
 		}
 
@@ -79,24 +89,36 @@ public class MovieScoreService {
 
 	/**
 	 * 查看用户的已评分的所有电影
-	 * @throws UserException 
+	 * 
+	 * @throws UserException
 	 */
 	public List<MovieDetails> selectMovieDetailsByUserCode(String userCode) throws UserException {
 
-		List<MovieDetails> movieDetailsList = new ArrayList<>();
-		// 非空校验
 		if (userCode != null) {
-			List<MovieScore> MovieScoreList = movieScoreMapper.queryMovieScoreByUserCode(userCode);
-			for (MovieScore movieScore : MovieScoreList) {
-				String mid = movieScore.getMid();
-				MovieDetails movieDetails = movieDetailsMapper.queryMovieDetailsByMid(mid).get(0);
-				movieDetailsList.add(movieDetails);
+			
+			Jedis jedis = jedisPool.getResource();
+			String data = jedis.get("spide_selectMovieDetailsByUserCode" + userCode);
+			if (data != null) {
+
+				return JSON.parseArray(data, MovieDetails.class);
+			} else {
+				//查询
+				List<MovieDetails> movieDetailsList = new ArrayList<>();
+				List<MovieScore> MovieScoreList = movieScoreMapper.queryMovieScoreByUserCode(userCode);
+				for (MovieScore movieScore : MovieScoreList) {
+					String mid = movieScore.getMid();
+					MovieDetails movieDetails = movieDetailsMapper.queryMovieDetailsByMid(mid).get(0);
+					movieDetailsList.add(movieDetails);
+
+				}
+				// 放入缓存
+				jedis.set("spide_selectMovieDetailsByUserCode" + userCode, JSON.toJSONString(movieDetailsList));
+				return movieDetailsList;
 			}
-		} else{
+		} else {
 			throw new UserException("登陆异常");
 		}
 
-		return movieDetailsList;
 	}
 
 }

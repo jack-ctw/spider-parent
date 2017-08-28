@@ -28,7 +28,7 @@ public class MovieCommentServiceTest {
 		
 		MovieComment movieComment = new MovieComment();
 		movieComment.setId((long) 1);
-		movieComment.setMid("644896");
+		movieComment.setMid("641515");
 		movieComment.setUserCode("test");
 		movieComment.setComment("java is good");
 		movieCommentService.insertMovieComment(movieComment);
