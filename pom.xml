@@ -27,10 +27,25 @@
 		<log4j.version>1.2.17</log4j.version>
 		<mybatis.version>3.3.0</mybatis.version>
 		<mybatis-spring.version>1.2.2</mybatis-spring.version>
+		<quartz-scheduler.version>2.2.3</quartz-scheduler.version>
+		<redis.clients.version>2.9.0</redis.clients.version>
 	</properties>
 
 	<dependencyManagement>
 		<dependencies>
+			<!-- redis -->
+			<dependency>
+				<groupId>redis.clients</groupId>
+				<artifactId>jedis</artifactId>
+				<version>${redis.clients.version}</version>
+			</dependency>
+			<!--quartz -->
+			<dependency>
+				<groupId>org.quartz-scheduler</groupId>
+				<artifactId>quartz</artifactId>
+				<version>${quartz-scheduler.version}</version>
+			</dependency>
+			<!-- spring非公有 -->
 			<dependency>
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-jdbc</artifactId>
