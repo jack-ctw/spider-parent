@@ -10,17 +10,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import cn.itcast.spider.entity.MovieDetails;
 import cn.itcast.spider.entity.MovieScore;
 import cn.itcast.spider.info.UserException;
-import cn.itcast.spider.service.master.MovieScoreWriterService;
-import cn.itcast.spider.service.subsidiary.MovieScoreReadService;
+import cn.itcast.spider.service.MovieScoreService;
 
 @Controller
 public class MovieScoreController {
 	
 	@Autowired
-	private MovieScoreWriterService movieScoreWriterService;
-	@Autowired
-	private MovieScoreReadService MovieScoreReadService;
-	
+	private MovieScoreService movieScoreService;
+
 	/**
 	 * 用户评分
 	 * @param movieScore
@@ -30,7 +27,7 @@ public class MovieScoreController {
 	@RequestMapping("/insertMovieScore")
 	public String insertMovieScore(MovieScore movieScore) throws UserException{
 		
-		movieScoreWriterService.insertMovieScore(movieScore);
+		movieScoreService.insertMovieScore(movieScore);
 		return null;
 	}
 	
@@ -44,7 +41,7 @@ public class MovieScoreController {
 	@ResponseBody
 	public List<MovieDetails> selectMovieDetailsByUserCode(String userCode) throws UserException{
 		
-		List<MovieDetails> MovieDetailsList = MovieScoreReadService.selectMovieDetailsByUserCode(userCode);
+		List<MovieDetails> MovieDetailsList = movieScoreService.selectMovieDetailsByUserCode(userCode);
 		return MovieDetailsList;
 	}
 }

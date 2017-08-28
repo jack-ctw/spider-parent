@@ -1,4 +1,4 @@
-package cn.itcast.spider.service.master;
+package cn.itcast.spider.service;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;

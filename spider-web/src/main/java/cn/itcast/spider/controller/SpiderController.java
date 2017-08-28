@@ -15,7 +15,7 @@ import cn.itcast.spider.dao.mapper.MovieDetailsMapper;
 import cn.itcast.spider.dto.RealtimeRank;
 import cn.itcast.spider.entity.EveryDayBoxOffice;
 import cn.itcast.spider.entity.MovieDetails;
-import cn.itcast.spider.service.master.CboooSpiderService;
+import cn.itcast.spider.service.CboooSpiderService;
 
 @Controller
 public class SpiderController {

@@ -1,11 +1,14 @@
-package cn.itcast.spider.service.subsidiary;
+package cn.itcast.spider.service;
+
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import cn.itcast.spider.dao.jpa.MovieCommentDao;
 import cn.itcast.spider.dao.mapper.MovieCommentMapper;
 import cn.itcast.spider.dao.mapper.MovieDetailsMapper;
 import cn.itcast.spider.entity.MovieComment;
@@ -18,12 +21,23 @@ import cn.itcast.spider.info.UserException;
  *
  */
 @Service
-public class MovieCommentReadService {
+public class MovieCommentService {
 
+	@Autowired
+	private MovieCommentDao moiveCommentDao;
 	@Autowired
 	private MovieCommentMapper movieCommentMapper;
 	@Autowired
 	private MovieDetailsMapper movieDetailsMapper;
+
+	/**
+	 * 增加评论
+	 * 
+	 */
+	@Transactional
+	public void insertMovieComment(MovieComment movieComment) {
+		moiveCommentDao.save(movieComment);
+	}
 	
 	/**
 	 * 用户查询自己评论过的电影 

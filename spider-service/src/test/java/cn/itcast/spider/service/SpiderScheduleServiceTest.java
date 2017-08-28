@@ -1,4 +1,4 @@
-package cn.itcast.spider.service.primary;
+package cn.itcast.spider.service;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import cn.itcast.spider.service.master.SpiderScheduleService;
+import cn.itcast.spider.service.SpiderScheduleService;
 
 
 @RunWith(SpringJUnit4ClassRunner.class) 

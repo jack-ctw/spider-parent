@@ -1,4 +1,4 @@
-package cn.itcast.spider.service.primary;
+package cn.itcast.spider.service;
 
 import java.util.List;
 
@@ -19,7 +19,7 @@ import cn.itcast.spider.entity.MovieComment;
 import cn.itcast.spider.entity.MovieDetails;
 import cn.itcast.spider.entity.MovieScore;
 import cn.itcast.spider.entity.User;
-import cn.itcast.spider.service.master.CboooSpiderService;
+import cn.itcast.spider.service.CboooSpiderService;
 
 @RunWith(SpringJUnit4ClassRunner.class) 
 @ContextConfiguration({"classpath:/spring/applicationContext.xml"})
