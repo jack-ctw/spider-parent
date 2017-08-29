@@ -26,6 +26,7 @@ public class MyHandlerExceptionResolver implements HandlerExceptionResolver {
 			myException = new UserException("未知异常");
 		}
 		ModelAndView mav = new ModelAndView();
+		exception.printStackTrace();
 		// 根据异常信息处理
 		String message = myException.getMessage();
 		if (message.equals("注册失败")) {

@@ -1,6 +1,5 @@
 package cn.itcast.spider.controller;
 
-import org.apache.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,7 +14,6 @@ public class UserController {
 	
 	@Autowired
 	private UserService userService;
-	
 	/**
 	 * 注册成功跳转到登录页面
 	 * @param user
