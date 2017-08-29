@@ -8,24 +8,16 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import cn.itcast.spider.dao.jpa.EveryDayBoxOfficeDao;
-import cn.itcast.spider.dao.jpa.MovieDetailsDao;
-import cn.itcast.spider.dao.mapper.EveryDayBoxOfficeMapper;
-import cn.itcast.spider.dao.mapper.MovieDetailsMapper;
 import cn.itcast.spider.dto.RealtimeRank;
 import cn.itcast.spider.entity.EveryDayBoxOffice;
 import cn.itcast.spider.entity.MovieDetails;
-import cn.itcast.spider.service.CboooSpiderService;
+import cn.itcast.spider.service.QueryMovieService;
 
 @Controller
 public class SpiderController {
 
 	@Autowired
-	private CboooSpiderService cboooSpiderService;
-	@Autowired
-	private EveryDayBoxOfficeMapper everyDayBoxOfficeMapper;
-	@Autowired
-	private MovieDetailsMapper movieDetailsMapper;
+	private QueryMovieService queryMovieSerivice;
 	
 	/**
 	 * 根据电影Id获取电影详细信息 url:http:127.0.0.1:8080/spider-web/movieDetails/641515
@@ -37,7 +29,7 @@ public class SpiderController {
 	@ResponseBody
 	public MovieDetails movieDetails(@PathVariable(value = "mid") String mid) {
 		
-		MovieDetails movieDetails = movieDetailsMapper.queryMovieDetailsByMid(mid).get(0);
+		MovieDetails movieDetails = queryMovieSerivice.queryMovieDetailsByMid(mid);
 		return movieDetails;
 	}
 
@@ -52,7 +44,7 @@ public class SpiderController {
 	@ResponseBody
 	public List<EveryDayBoxOffice> everyDayBoxOfficeList(@PathVariable(value = "mid") String mid) {
 		
-		List<EveryDayBoxOffice> everyDayBoxOfficeList = everyDayBoxOfficeMapper.queryEveryDayBoxOfficByMid(mid);
+		List<EveryDayBoxOffice> everyDayBoxOfficeList = queryMovieSerivice.everyDayBoxOfficeList(mid);
 		return everyDayBoxOfficeList;
 	}
 
@@ -65,7 +57,7 @@ public class SpiderController {
 	@ResponseBody
 	public RealtimeRank realtimeRank() {
 		
-		RealtimeRank realtimeRank = cboooSpiderService.realtimeRank();
+		RealtimeRank realtimeRank = queryMovieSerivice.realtimeRank();
 		return realtimeRank;
 	}
 

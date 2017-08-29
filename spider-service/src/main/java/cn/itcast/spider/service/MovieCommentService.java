@@ -42,24 +42,31 @@ public class MovieCommentService {
 	 */
 	@Transactional
 	public void insertMovieComment(MovieComment movieComment) {
+		
 		moiveCommentDao.save(movieComment);
-
 		Jedis jedis = jedisPool.getResource();
 		String mid = movieComment.getMid();
 		String userCode = movieComment.getUserCode();
+		
 		// 更新用户查询自己评论过的电影 _缓存 : spider_queryMovieDetailsByUserCode_
 		String jsonByUserCode = jedis.get("spider_queryMovieDetailsByUserCode_" + userCode);
 		if (jsonByUserCode != null) {
-			List<MovieDetails> dataByuserCode = JSON.parseArray(jsonByUserCode, MovieDetails.class);
+			
+			// 查自己评论过的电影 ,并发问题应该不存在 所以采用插入后更新缓存./??? 
+			jedis.del("spider_queryMovieDetailsByUserCode_" + userCode);
+			/*List<MovieDetails> dataByuserCode = JSON.parseArray(jsonByUserCode, MovieDetails.class);
 			dataByuserCode.add(movieDetailsMapper.queryMovieDetailsByMid(mid).get(0));
-			jedis.set("spider_queryMovieDetailsByUserCode_" + userCode, JSON.toJSONString(dataByuserCode));
+			jedis.set("spider_queryMovieDetailsByUserCode_" + userCode, JSON.toJSONString(dataByuserCode));*/
 		}
-		// 更新该电影的所有评论_缓存: spider_QueryCommentsByMid_
-		String jsonByMid = jedis.get("spider_QueryCommentsByMid_" + mid);
+		// 更新该电影的所有评论_缓存: spider_QueryMovieCommentsByMid_
+		String jsonByMid = jedis.get("spider_QueryMovieCommentsByMid_" + mid);
 		if (jsonByMid != null) {
-			List<MovieComment> dataByMid = JSON.parseArray(jsonByMid, MovieComment.class);
+			
+			// 采用 Cache Aside 避免查询和插入 并发时出现的脏数据
+			jedis.del("spider_QueryMovieCommentsByMid_" + mid);
+			/*List<MovieComment> dataByMid = JSON.parseArray(jsonByMid, MovieComment.class);
 			dataByMid.add(movieComment);
-			jedis.set("spider_QueryCommentsByMid_" + mid, JSON.toJSONString(dataByMid));
+			jedis.set("spider_QueryMovieCommentsByMid_" + mid, JSON.toJSONString(dataByMid));*/
 		}
 	}
 
@@ -87,6 +94,7 @@ public class MovieCommentService {
 				}
 				// 查询后放入缓存
 				jedis.set("spider_queryMovieDetailsByUserCode_" + userCode, JSON.toJSONString(movieDetailsList));
+				jedis.expire("spider_queryMovieDetailsByUserCode_" + userCode, 60*60*10);
 				return movieDetailsList;
 			}
 		} else {
@@ -104,7 +112,7 @@ public class MovieCommentService {
 
 		if (mid != null) {
 			Jedis jedis = jedisPool.getResource();
-			String data = jedis.get("spider_QueryCommentsByMid_" + mid);
+			String data = jedis.get("spider_QueryMovieCommentsByMid_" + mid);
 
 			if (data != null) {
 
@@ -112,7 +120,7 @@ public class MovieCommentService {
 			} else {
 				// 查询后放入缓存
 				List<MovieComment> MovieCommentList = movieCommentMapper.queryMovieCommentByMid(mid);
-				jedis.set("spider_QueryCommentsByMid_" + mid, JSON.toJSONString(MovieCommentList));
+				jedis.set("spider_QueryMovieCommentsByMid_" + mid, JSON.toJSONString(MovieCommentList));
 				return MovieCommentList;
 			}
 

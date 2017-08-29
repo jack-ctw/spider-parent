@@ -48,4 +48,9 @@ public class QueryMovieServiceTest {
 		queryMovieService.everyDayBoxOfficeList("641515");
 	}
 	
+	@Test
+	public void realtimeRank(){
+		queryMovieService.realtimeRank();
+	}
+	
 }

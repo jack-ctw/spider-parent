@@ -29,9 +29,9 @@ public class MovieScoreServiceTest {
 		
 		MovieScore movieScore = new MovieScore();
 		movieScore.setId((long) 1);
-		movieScore.setMid("641515");
+		movieScore.setMid("658442");
 		movieScore.setScore(80);
-		movieScore.setUserCode("tom");
+		movieScore.setUserCode("test");
 		movieScoreService.insertMovieScore(movieScore);
 	}
 	
@@ -40,12 +40,14 @@ public class MovieScoreServiceTest {
 	 */
 	@Test
 	public void getAvgScoreTest(){
+		
 		String avgScore = movieScoreService.getAvgScore("641515");
 		System.out.println(avgScore);
 	}
 	
 	@Test
 	public void selectMovieDetailsByUserCodeTest() throws UserException{
+		
 		List<MovieDetails> movieDetailsList = movieScoreService.selectMovieDetailsByUserCode("test");
 		System.out.println(movieDetailsList.size());
 	}

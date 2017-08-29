@@ -30,7 +30,7 @@ public class MovieCommentServiceTest {
 		movieComment.setId((long) 1);
 		movieComment.setMid("641515");
 		movieComment.setUserCode("test");
-		movieComment.setComment("java is good");
+		movieComment.setComment("java is good 8.29");
 		movieCommentService.insertMovieComment(movieComment);
 	}
 	

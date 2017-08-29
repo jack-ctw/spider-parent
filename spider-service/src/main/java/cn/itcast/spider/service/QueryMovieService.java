@@ -12,6 +12,7 @@ import com.alibaba.fastjson.JSONObject;
 
 import cn.itcast.spider.dao.mapper.EveryDayBoxOfficeMapper;
 import cn.itcast.spider.dao.mapper.MovieDetailsMapper;
+import cn.itcast.spider.dto.RealtimeRank;
 import cn.itcast.spider.entity.EveryDayBoxOffice;
 import cn.itcast.spider.entity.MovieDetails;
 import redis.clients.jedis.Jedis;
@@ -26,6 +27,8 @@ public class QueryMovieService {
 	private MovieDetailsMapper movieDetailsMapper;
 	@Autowired
 	private JedisPool jedisPool;
+	@Autowired
+	private CboooSpiderService cboooSpiderService;
 
 	/**
 	 * 根据电影Id获取电影详细信息
@@ -69,14 +72,15 @@ public class QueryMovieService {
 		try {
 
 			String data = jedis.get("spider_everyDayBoxOfficeList_" + mid);
-
+			
 			if (data != null) {
-
+				System.out.println("查询缓存得到" + data);
 				return JSON.parseArray(data, EveryDayBoxOffice.class);
 			} else {
 				// 查询后放入缓存
 				List<EveryDayBoxOffice> everyDayBoxOfficeList = everyDayBoxOfficeMapper.queryEveryDayBoxOfficByMid(mid);
 				jedis.set("spider_everyDayBoxOfficeList_" + mid, JSON.toJSONString(everyDayBoxOfficeList));
+				System.out.println("Redis..添加到缓存成功" + everyDayBoxOfficeList);
 				return everyDayBoxOfficeList;
 
 			}
@@ -84,7 +88,27 @@ public class QueryMovieService {
 
 			jedis.close();
 		}
+	}
 
+	/**
+	 * 查询排行榜电影信息
+	 * 
+	 */
+	public RealtimeRank realtimeRank() {
+
+		Jedis jedis = jedisPool.getResource();
+		String data = jedis.get("spider_realtimeRank");
+		if (data != null) {
+			System.out.println("查询缓存得到" + data);
+			return JSON.parseObject(data, RealtimeRank.class);
+		} else {
+			
+			RealtimeRank realtimeRank = cboooSpiderService.realtimeRank();
+			jedis.set("spider_realtimeRank", JSON.toJSONString(realtimeRank));
+			jedis.expire("spider_realtimeRank", 60*5);
+			System.out.println("Redis..添加到缓存成功" + realtimeRank);
+			return realtimeRank;
+		}
 	}
 
 }

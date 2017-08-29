@@ -8,9 +8,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import cn.itcast.spider.dao.jpa.EveryDayBoxOfficeDao;
 import cn.itcast.spider.dao.jpa.MovieDetailsDao;
+import cn.itcast.spider.dao.mapper.MovieDetailsMapper;
 import cn.itcast.spider.dto.HistoryBoxOffice;
 import cn.itcast.spider.entity.EveryDayBoxOffice;
 import cn.itcast.spider.entity.MovieDetails;
+import redis.clients.jedis.JedisPool;
 /**
  * 定时调度模块
  * @author jack
@@ -28,6 +30,11 @@ public class SpiderScheduleService {
 	private CboooSpiderService cboooService;
 	@Autowired
 	private MovieScoreService movieScoreService;
+	@Autowired
+	private MovieDetailsMapper movieDetailsMapper;
+	@Autowired
+	private JedisPool jedisPool;
+	
 
 	/**
 	 * 持久化电影信息
@@ -63,6 +70,8 @@ public class SpiderScheduleService {
 				String avgScore = movieScoreService.getAvgScore(mid);
 				movieDetails2.setAvgScore(avgScore);
 				movieDetailsDao.save(movieDetails2);
+				// 清空缓存
+				jedisPool.getResource().del("spider_queryMovieDetailsByMid_"+mid);
 				System.out.println("成功更新电影信息:" + movieDetails.getName());
 			}
 		}
@@ -99,8 +108,13 @@ public class SpiderScheduleService {
 				EveryDayBoxOffice everyDayBoxOffice = historyBoxOffice.getData1().get(lastIndex);
 				everyDayBoxOffice.setMid(mid);
 				everyDayBoxOfficeDao.save(everyDayBoxOffice);
+				
+				//	清空缓存
+				jedisPool.getResource().del("spider_everyDayBoxOfficeList_"+mid);
 				System.out.println("更新mid为"+mid+"电影,"+everyDayBoxOffice.getInsertDate()+"号数据");
 			}
 		}
 	}
+	
+
 }

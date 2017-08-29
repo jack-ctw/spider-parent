@@ -46,13 +46,24 @@ public class MovieScoreService {
 	@Transactional
 	public void insertMovieScore(MovieScore movieScore) throws UserException {
 
-		// 非空判断
 		if (movieScore != null && movieScore.getUserCode() != null) {
 			// 判断是否已评分
 			String mid = movieScore.getMid();
 			String userCode = movieScore.getUserCode();
 			List<MovieScore> existMovieScoreList = movieScoreDao.findByMidAndUserCode(mid, userCode);
 			if (existMovieScoreList == null || existMovieScoreList.size() == 0) {
+
+				// 用户查询自己评分的电影. 应该没有并发问题 >???
+				Jedis jedis = jedisPool.getResource();
+				String jsonByUserCode = jedis.get("spide_selectMovieDetailsByUserCode_" + userCode);
+				if (jsonByUserCode != null) {
+					
+					jedis.del("spide_selectMovieDetailsByUserCode_" + userCode);
+					/*List<MovieDetails> dataByUserCode = JSON.parseArray(jsonByUserCode, MovieDetails.class);
+					dataByUserCode.add(movieDetailsMapper.queryMovieDetailsByMid(mid).get(0));
+					jedis.set("spide_selectMovieDetailsByUserCode_" + userCode, JSON.toJSONString(dataByUserCode));
+					jedis.expire("spide_selectMovieDetailsByUserCode_" + userCode, 60*60*12);*/
+				}
 				movieScoreDao.save(movieScore);
 			} else {
 				System.out.println("只能进行一次评分");
@@ -95,14 +106,14 @@ public class MovieScoreService {
 	public List<MovieDetails> selectMovieDetailsByUserCode(String userCode) throws UserException {
 
 		if (userCode != null) {
-			
+
 			Jedis jedis = jedisPool.getResource();
-			String data = jedis.get("spide_selectMovieDetailsByUserCode" + userCode);
+			String data = jedis.get("spide_selectMovieDetailsByUserCode_" + userCode);
 			if (data != null) {
 
 				return JSON.parseArray(data, MovieDetails.class);
 			} else {
-				//查询
+				
 				List<MovieDetails> movieDetailsList = new ArrayList<>();
 				List<MovieScore> MovieScoreList = movieScoreMapper.queryMovieScoreByUserCode(userCode);
 				for (MovieScore movieScore : MovieScoreList) {
@@ -111,8 +122,9 @@ public class MovieScoreService {
 					movieDetailsList.add(movieDetails);
 
 				}
-				// 放入缓存
-				jedis.set("spide_selectMovieDetailsByUserCode" + userCode, JSON.toJSONString(movieDetailsList));
+				
+				jedis.set("spide_selectMovieDetailsByUserCode_" + userCode, JSON.toJSONString(movieDetailsList));
+				jedis.expire("spide_selectMovieDetailsByUserCode_" + userCode, 60*60*12);
 				return movieDetailsList;
 			}
 		} else {
