@@ -3,9 +3,14 @@ package cn.itcast.spider.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+
+import com.alibaba.fastjson.JSON;
 
 import cn.itcast.spider.entity.MovieDetails;
 import cn.itcast.spider.entity.MovieScore;
@@ -24,12 +29,19 @@ public class MovieScoreController {
 	 * @return
 	 * @throws UserException 
 	 */
-	@RequestMapping("/insertMovieScore")
-	public String insertMovieScore(MovieScore movieScore) throws UserException{
+	@PostMapping("/insertMovieScore_restful")
+	public ResponseEntity<Void> insertMovieScore_restful(MovieScore movieScore){
 		
-		movieScoreService.insertMovieScore(movieScore);
-		return null;
+		try {
+			
+			movieScoreService.insertMovieScore(movieScore);
+			return ResponseEntity.status(HttpStatus.CREATED).build();
+		} catch (UserException e) {
+		}
+		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 	}
+	
+	
 	
 	/**
 	 * 查询自己评分的电影
@@ -37,11 +49,20 @@ public class MovieScoreController {
 	 * @return
 	 * @throws UserException 
 	 */
-	@RequestMapping("/MovieDetailsByUserCode")
-	@ResponseBody
-	public List<MovieDetails> selectMovieDetailsByUserCode(String userCode) throws UserException{
+	@GetMapping("/selectMovieDetailsByUserCode_restful/{userCode}")
+	public ResponseEntity<String> selectMovieDetailsByUserCode_restful(@PathVariable("userCode") String userCode){
 		
-		List<MovieDetails> MovieDetailsList = movieScoreService.selectMovieDetailsByUserCode(userCode);
-		return MovieDetailsList;
+		try {
+			List<MovieDetails> movieDetailsList = movieScoreService.selectMovieDetailsByUserCode(userCode);
+			if(movieDetailsList!=null){
+				return ResponseEntity.ok(JSON.toJSONString(movieDetailsList));
+			}else{
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+			}
+		} catch (UserException e) {
+		}
+		
+		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
 	}
+	
 }
