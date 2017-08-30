@@ -20,5 +20,7 @@
 	
 	<import resource="quarts.xml"/> 
 	
+	<import resource="cache.xml"/>
+	
 	<import resource="redis.xml"/>
 </beans>

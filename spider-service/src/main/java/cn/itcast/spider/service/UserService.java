@@ -3,6 +3,8 @@ package cn.itcast.spider.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,6 +39,7 @@ public class UserService {
 			throw new UserException(message);
 		}
 	}
+
 	
 	/**
 	 * 用户登录             
@@ -44,23 +47,29 @@ public class UserService {
 	 * @return
 	 * @throws UserException 
 	 */
+	@Cacheable(value="accountCache")
 	public User login(User user) throws UserException{
 		
-		String message="";
-		List<User> userList = userMapper.queryUserByUserCode(user.getUserCode());
+		/*List<User> userList = userMapper.queryUserByUserCode(user.getUserCode());*/
+		// 学习spring chache  测试使用
+		List<User> userList = testCache(user);
+		System.out.println("查询后放入缓存");
 		
 		if (userList == null || userList.size() ==0) {
-			message="登录失败123";
-			throw new UserException(message);
+			throw new UserException("登陆失败1");
 		}else{
 			User exitUser = userList.get(0);
 			if(user.getPassWord().equals(exitUser.getPassWord())){
 				return exitUser;
 			}else {
-				message="登录失败456";
-				throw new UserException(message);
+				throw new UserException("登陆失败2");
 			}
 		}
+	}
+	
+	public List<User> testCache(User user){
+		System.out.println("查询了数据库");
+		return 	 userMapper.queryUserByUserCode(user.getUserCode());
 	}
 	
 }
