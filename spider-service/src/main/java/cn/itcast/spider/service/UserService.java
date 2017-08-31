@@ -3,7 +3,6 @@ package cn.itcast.spider.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -47,7 +46,7 @@ public class UserService {
 	 * @return
 	 * @throws UserException 
 	 */
-	@Cacheable(value="accountCache")
+	@Cacheable("login")
 	public User login(User user) throws UserException{
 		
 		/*List<User> userList = userMapper.queryUserByUserCode(user.getUserCode());*/

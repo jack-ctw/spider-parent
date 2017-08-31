@@ -12,10 +12,12 @@
 	<bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig"
 		p:maxTotal="20"></bean>
 	<bean id="jedisPool" class="redis.clients.jedis.JedisPool"
-		c:_0-ref="jedisPoolConfig"
-  		c:host="${jedisPool.host}"
-  		c:port="${jedisPool.port}"
-	/>
-		
+		c:_0-ref="jedisPoolConfig" c:host="${jedisPool.host}" c:port="${jedisPool.port}" />
 	
+	
+
+ 
+
+
+
 </beans>

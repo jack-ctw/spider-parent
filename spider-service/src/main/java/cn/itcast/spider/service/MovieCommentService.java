@@ -7,16 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.alibaba.fastjson.JSON;
-
 import cn.itcast.spider.dao.jpa.MovieCommentDao;
 import cn.itcast.spider.dao.mapper.MovieCommentMapper;
 import cn.itcast.spider.dao.mapper.MovieDetailsMapper;
 import cn.itcast.spider.entity.MovieComment;
 import cn.itcast.spider.entity.MovieDetails;
 import cn.itcast.spider.info.UserException;
-import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisPool;
 
 /**
  * 电影评论模块
@@ -33,8 +29,9 @@ public class MovieCommentService {
 	private MovieCommentMapper movieCommentMapper;
 	@Autowired
 	private MovieDetailsMapper movieDetailsMapper;
-	@Autowired
-	private JedisPool jedisPool;
+	/*
+	 * @Autowired private JedisPool jedisPool
+	 */;
 
 	/**
 	 * 增加评论
@@ -42,32 +39,8 @@ public class MovieCommentService {
 	 */
 	@Transactional
 	public void insertMovieComment(MovieComment movieComment) {
-		
+
 		moiveCommentDao.save(movieComment);
-		Jedis jedis = jedisPool.getResource();
-		String mid = movieComment.getMid();
-		String userCode = movieComment.getUserCode();
-		
-		// 更新用户查询自己评论过的电影 _缓存 : spider_queryMovieDetailsByUserCode_
-		String jsonByUserCode = jedis.get("spider_queryMovieDetailsByUserCode_" + userCode);
-		if (jsonByUserCode != null) {
-			
-			// 查自己评论过的电影 ,并发问题应该不存在 所以采用插入后更新缓存./??? 
-			jedis.del("spider_queryMovieDetailsByUserCode_" + userCode);
-			/*List<MovieDetails> dataByuserCode = JSON.parseArray(jsonByUserCode, MovieDetails.class);
-			dataByuserCode.add(movieDetailsMapper.queryMovieDetailsByMid(mid).get(0));
-			jedis.set("spider_queryMovieDetailsByUserCode_" + userCode, JSON.toJSONString(dataByuserCode));*/
-		}
-		// 更新该电影的所有评论_缓存: spider_QueryMovieCommentsByMid_
-		String jsonByMid = jedis.get("spider_QueryMovieCommentsByMid_" + mid);
-		if (jsonByMid != null) {
-			
-			// 采用 Cache Aside 避免查询和插入 并发时出现的脏数据
-			jedis.del("spider_QueryMovieCommentsByMid_" + mid);
-			/*List<MovieComment> dataByMid = JSON.parseArray(jsonByMid, MovieComment.class);
-			dataByMid.add(movieComment);
-			jedis.set("spider_QueryMovieCommentsByMid_" + mid, JSON.toJSONString(dataByMid));*/
-		}
 	}
 
 	/**
@@ -78,25 +51,17 @@ public class MovieCommentService {
 	public List<MovieDetails> queryMovieDetailsByUserCode(String userCode) throws UserException {
 
 		if (userCode != null) {
-			Jedis jedis = jedisPool.getResource();
-			String data = jedis.get("spider_queryMovieDetailsByUserCode_" + userCode);
-			if (data != null) {
-				System.out.println("读取缓存数据" + data);
-				return JSON.parseArray(data, MovieDetails.class);
-			} else {
-				// 查询
-				List<MovieDetails> movieDetailsList = new ArrayList<>();
-				List<MovieComment> MoveCommentList = movieCommentMapper.queryMovieCommentByUserCode(userCode);
-				for (MovieComment movieComment : MoveCommentList) {
-					String mid = movieComment.getMid();
-					MovieDetails movieDetails = movieDetailsMapper.queryMovieDetailsByMid(mid).get(0);
-					movieDetailsList.add(movieDetails);
-				}
-				// 查询后放入缓存
-				jedis.set("spider_queryMovieDetailsByUserCode_" + userCode, JSON.toJSONString(movieDetailsList));
-				jedis.expire("spider_queryMovieDetailsByUserCode_" + userCode, 60*60*10);
-				return movieDetailsList;
+
+			// 查询
+			List<MovieDetails> movieDetailsList = new ArrayList<>();
+			List<MovieComment> MoveCommentList = movieCommentMapper.queryMovieCommentByUserCode(userCode);
+			for (MovieComment movieComment : MoveCommentList) {
+				String mid = movieComment.getMid();
+				MovieDetails movieDetails = movieDetailsMapper.queryMovieDetailsByMid(mid).get(0);
+				movieDetailsList.add(movieDetails);
+
 			}
+			return movieDetailsList;
 		} else {
 			throw new UserException("登陆异常");
 		}
@@ -111,19 +76,9 @@ public class MovieCommentService {
 	public List<MovieComment> QueryCommentsByMid(String mid) throws UserException {
 
 		if (mid != null) {
-			Jedis jedis = jedisPool.getResource();
-			String data = jedis.get("spider_QueryMovieCommentsByMid_" + mid);
 
-			if (data != null) {
-
-				return JSON.parseArray(data, MovieComment.class);
-			} else {
-				// 查询后放入缓存
-				List<MovieComment> MovieCommentList = movieCommentMapper.queryMovieCommentByMid(mid);
-				jedis.set("spider_QueryMovieCommentsByMid_" + mid, JSON.toJSONString(MovieCommentList));
-				return MovieCommentList;
-			}
-
+			List<MovieComment> MovieCommentList = movieCommentMapper.queryMovieCommentByMid(mid);
+			return MovieCommentList;
 		} else {
 			throw new UserException("没有此电影");
 		}

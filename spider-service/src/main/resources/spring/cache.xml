@@ -10,7 +10,7 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   <cache:annotation-driven />
  
    <!-- generic cache manager -->
-  <bean id="cacheManager"
+<!--   <bean id="cacheManager"
   class="org.springframework.cache.support.SimpleCacheManager">
     <property name="caches"> 
       <set> 
@@ -19,9 +19,11 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
           p:name="default" /> 
         
         <bean
-          class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean"
+          class="org.springframework.data.redis.cache.RedisCacheManager"
           p:name="accountCache" /> 
       </set> 
     </property> 
-  </bean> 
+  </bean>  -->
+
+  
 </beans>

@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.alibaba.fastjson.JSON;
 
 import cn.itcast.spider.dao.jpa.MovieScoreDao;
 import cn.itcast.spider.dao.mapper.MovieDetailsMapper;
@@ -16,8 +15,6 @@ import cn.itcast.spider.dao.mapper.MovieScoreMapper;
 import cn.itcast.spider.entity.MovieDetails;
 import cn.itcast.spider.entity.MovieScore;
 import cn.itcast.spider.info.UserException;
-import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisPool;
 
 /**
  * 电影评分模块
@@ -34,8 +31,6 @@ public class MovieScoreService {
 	private MovieScoreMapper movieScoreMapper;
 	@Autowired
 	private MovieDetailsMapper movieDetailsMapper;
-	@Autowired
-	private JedisPool jedisPool;
 
 	/**
 	 * 插入评分
@@ -52,18 +47,6 @@ public class MovieScoreService {
 			String userCode = movieScore.getUserCode();
 			List<MovieScore> existMovieScoreList = movieScoreDao.findByMidAndUserCode(mid, userCode);
 			if (existMovieScoreList == null || existMovieScoreList.size() == 0) {
-
-				// 用户查询自己评分的电影. 应该没有并发问题 >???
-				Jedis jedis = jedisPool.getResource();
-				String jsonByUserCode = jedis.get("spide_selectMovieDetailsByUserCode_" + userCode);
-				if (jsonByUserCode != null) {
-					
-					jedis.del("spide_selectMovieDetailsByUserCode_" + userCode);
-					/*List<MovieDetails> dataByUserCode = JSON.parseArray(jsonByUserCode, MovieDetails.class);
-					dataByUserCode.add(movieDetailsMapper.queryMovieDetailsByMid(mid).get(0));
-					jedis.set("spide_selectMovieDetailsByUserCode_" + userCode, JSON.toJSONString(dataByUserCode));
-					jedis.expire("spide_selectMovieDetailsByUserCode_" + userCode, 60*60*12);*/
-				}
 				movieScoreDao.save(movieScore);
 			} else {
 				System.out.println("只能进行一次评分");
@@ -106,27 +89,15 @@ public class MovieScoreService {
 	public List<MovieDetails> selectMovieDetailsByUserCode(String userCode) throws UserException {
 
 		if (userCode != null) {
-
-			Jedis jedis = jedisPool.getResource();
-			String data = jedis.get("spide_selectMovieDetailsByUserCode_" + userCode);
-			if (data != null) {
-
-				return JSON.parseArray(data, MovieDetails.class);
-			} else {
-				
-				List<MovieDetails> movieDetailsList = new ArrayList<>();
-				List<MovieScore> MovieScoreList = movieScoreMapper.queryMovieScoreByUserCode(userCode);
-				for (MovieScore movieScore : MovieScoreList) {
-					String mid = movieScore.getMid();
-					MovieDetails movieDetails = movieDetailsMapper.queryMovieDetailsByMid(mid).get(0);
-					movieDetailsList.add(movieDetails);
-
-				}
-				
-				jedis.set("spide_selectMovieDetailsByUserCode_" + userCode, JSON.toJSONString(movieDetailsList));
-				jedis.expire("spide_selectMovieDetailsByUserCode_" + userCode, 60*60*12);
-				return movieDetailsList;
+			
+			List<MovieDetails> movieDetailsList = new ArrayList<>();
+			List<MovieScore> MovieScoreList = movieScoreMapper.queryMovieScoreByUserCode(userCode);
+			for (MovieScore movieScore : MovieScoreList) {
+				String mid = movieScore.getMid();
+				MovieDetails movieDetails = movieDetailsMapper.queryMovieDetailsByMid(mid).get(0);
+				movieDetailsList.add(movieDetails);
 			}
+			return movieDetailsList;
 		} else {
 			throw new UserException("登陆异常");
 		}
