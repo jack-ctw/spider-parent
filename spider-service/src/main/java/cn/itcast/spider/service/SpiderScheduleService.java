@@ -3,6 +3,8 @@ package cn.itcast.spider.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,14 +31,13 @@ public class SpiderScheduleService {
 	@Autowired
 	private MovieScoreService movieScoreService;
 
-	
-
 	/**
 	 * 持久化电影信息
 	 * 
 	 * @param midList
 	 */
 	@Transactional
+	@CacheEvict(value={"queryMovieDetailsByMid"},allEntries = true)
 	public void saveRankMovieDetails() {
 		
 		List<String> midList = cboooService.getMidList();
@@ -77,6 +78,7 @@ public class SpiderScheduleService {
 	 * @param midList
 	 */
 	@Transactional
+	@CacheEvict(value={"everyDayBoxOfficeList"},allEntries = true)
 	public void saveHistoryBoxOffice() {
 		
 		List<String> midList = cboooService.getMidList();

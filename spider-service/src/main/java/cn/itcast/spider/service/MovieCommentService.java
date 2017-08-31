@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,6 +40,7 @@ public class MovieCommentService {
 	 * 
 	 */
 	@Transactional
+	@CacheEvict(value={"queryMovieDetailsByUserCode","QueryCommentsByMid"},allEntries = true)
 	public void insertMovieComment(MovieComment movieComment) {
 
 		moiveCommentDao.save(movieComment);
@@ -48,6 +51,7 @@ public class MovieCommentService {
 	 * 
 	 * @throws UserException
 	 */
+	@Cacheable("queryMovieDetailsByUserCode")
 	public List<MovieDetails> queryMovieDetailsByUserCode(String userCode) throws UserException {
 
 		if (userCode != null) {
@@ -73,6 +77,7 @@ public class MovieCommentService {
 	 * 
 	 * @throws UserException
 	 */
+	@Cacheable("QueryCommentsByMid")
 	public List<MovieComment> QueryCommentsByMid(String mid) throws UserException {
 
 		if (mid != null) {

@@ -29,7 +29,7 @@ public class MovieScoreServiceTest {
 		
 		MovieScore movieScore = new MovieScore();
 		movieScore.setId((long) 1);
-		movieScore.setMid("658442");
+		movieScore.setMid("666143");
 		movieScore.setScore(80);
 		movieScore.setUserCode("test");
 		movieScoreService.insertMovieScore(movieScore);
